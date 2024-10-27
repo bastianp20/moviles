@@ -5,9 +5,11 @@
         Volver Atrás
       </ion-button>
     </ion-buttons>
+
     <ion-title class="ion-text-center">
       Inicio de Sesión
     </ion-title>
+
     <ion-buttons slot="end">
       <ion-button (click)="resetPassword()">
         Restablecer Contraseña
@@ -26,7 +28,7 @@
       <ion-label position="floating">Contraseña</ion-label>
       <ion-input formControlName="password" type="password"></ion-input>
     </ion-item>
-    <ion-button [routerLink] = "['/alumno']" expand="full" type="submit" color="primary">
+    <ion-button (click)="ingresar()">
       Iniciar Sesión
     </ion-button>
     <ion-button [routerLink]="['/registro-alumnos']" expand ="full" type="submit" color="primary">
