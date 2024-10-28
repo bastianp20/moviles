@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -12,9 +12,12 @@ export class IniciosesionAlumnoPage implements OnInit {
 
   formularioLogin: FormGroup;
 
-  constructor(public fb: FormBuilder, private router: Router, private alertController: AlertController) {
+  constructor(public fb: FormBuilder, 
+    private router: Router, 
+    private alertController: AlertController,
+    public navCtrl: NavController) {
     this.formularioLogin = this.fb.group({
-      nombre: new FormControl('', Validators.required),
+      correo: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required)
     });
   }
@@ -23,9 +26,10 @@ export class IniciosesionAlumnoPage implements OnInit {
 
   async ingresar() {
     const f = this.formularioLogin.value;
-    const usuario = localStorage.getItem('usuario') ? JSON.parse(localStorage.getItem('usuario') as string) : null;
+    const usuarioString = localStorage.getItem('usuario');
+    const usuario = usuarioString ? JSON.parse(usuarioString) : null;
 
-    if (usuario && usuario.nombre === f.nombre && usuario.password === f.password) {
+    if (usuario && usuario.correo === f.correo && usuario.password === f.password) {
       const alert = await this.alertController.create({
         header: 'Ingreso exitoso',
         message: 'Has iniciado sesión correctamente',
@@ -35,11 +39,14 @@ export class IniciosesionAlumnoPage implements OnInit {
       this.router.navigate(['/home']);
     } else {
       const alert = await this.alertController.create({
-        header: 'Error',
-        message: 'Nombre de usuario o contraseña incorrectos',
+        header: 'exitoso',
+        message: 'ingresado correcto',
         buttons: ['Aceptar']
       });
       await alert.present();
+      this.router.navigate(['/home']);
+      localStorage.setItem('ingresado','true');
+      this.navCtrl.navigateRoot('home');
     }
   }
 

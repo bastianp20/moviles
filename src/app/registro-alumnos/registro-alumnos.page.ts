@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { AlertController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-registro-alumnos',
@@ -12,7 +12,8 @@ export class RegistroAlumnosPage implements OnInit {
   formularioRegistro: FormGroup;
 
   constructor(public fb: FormBuilder,
-    public alertController: AlertController
+    public alertController: AlertController,
+    public navCtrl: NavController
   ) {
     // Configuración del formulario
     this.formularioRegistro = this.fb.group({
@@ -35,6 +36,10 @@ export class RegistroAlumnosPage implements OnInit {
     });
     await alert.present();
     return; 
+    }else{
+      console.log('registro exitoso');
+      localStorage.setItem('ingresado','true');
+      this.navCtrl.navigateRoot('home');
     }
 
     var usuario = {
