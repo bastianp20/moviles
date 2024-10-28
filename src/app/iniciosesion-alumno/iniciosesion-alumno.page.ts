@@ -36,7 +36,7 @@ export class IniciosesionAlumnoPage implements OnInit {
         buttons: ['Aceptar']
       });
       await alert.present();
-      this.router.navigate(['/home']);
+      this.router.navigate(['/alumno']);
     } else {
       const alert = await this.alertController.create({
         header: 'exitoso',
@@ -46,7 +46,7 @@ export class IniciosesionAlumnoPage implements OnInit {
       await alert.present();
       this.router.navigate(['/home']);
       localStorage.setItem('ingresado','true');
-      this.navCtrl.navigateRoot('home');
+      this.navCtrl.navigateRoot('alumno');
     }
   }
 
