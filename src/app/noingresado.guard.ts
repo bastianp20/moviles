@@ -9,7 +9,7 @@ export class NoIngresadoGuard implements CanActivate {
 
   canActivate(): boolean {
     if (localStorage.getItem('ingresado')) {
-      this.router.navigate(['iniciosesion-alumno']);
+      this.router.navigate(['alumno']);
       return false;
     }
     return true;
