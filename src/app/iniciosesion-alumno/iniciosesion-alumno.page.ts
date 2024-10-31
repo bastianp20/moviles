@@ -29,7 +29,6 @@ export class IniciosesionAlumnoPage implements OnInit {
   async ingresar() {
     const f = this.formularioLogin.value;
 
-    // Verificar si el formulario es válido
     if (this.formularioLogin.invalid) {
       const alert = await this.alertController.create({
         header: 'Datos incompletos',
@@ -40,18 +39,14 @@ export class IniciosesionAlumnoPage implements OnInit {
       return;
     }
 
-    // Obtener la lista de usuarios desde localStorage
     const usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
 
-    // Log para depurar
     console.log('Usuarios en Local Storage:', usuarios);
     console.log('Datos ingresados:', f);
 
-    // Verificar si el usuario existe en la lista
     const usuario = usuarios.find((user: any) => user.correo === f.correo && user.contraseña === f.password);
 
     if (usuario) {
-      // Usuario encontrado: inicio de sesión exitoso
       const alert = await this.alertController.create({
         header: 'Ingreso exitoso',
         message: 'Has iniciado sesión correctamente',
@@ -59,13 +54,10 @@ export class IniciosesionAlumnoPage implements OnInit {
       });
       await alert.present();
 
-      // Marcar al usuario como ingresado en localStorage
       localStorage.setItem('ingresado', 'true');
 
-      // Redirigir a la página del alumno
       this.navCtrl.navigateRoot('alumno');
     } else {
-      // Usuario no encontrado: credenciales incorrectas
       const alert = await this.alertController.create({
         header: 'Error de inicio de sesión',
         message: 'Correo o contraseña incorrectos. Por favor, intenta nuevamente.',
@@ -77,14 +69,77 @@ export class IniciosesionAlumnoPage implements OnInit {
 
   async resetPassword() {
     const alert = await this.alertController.create({
-      header: 'Resetear Contraseña',
-      message: 'Funcionalidad de resetear contraseña aún no implementada.',
-      buttons: ['Aceptar']
+      header: 'Restablecer Contraseña',
+      inputs: [
+        {
+          name: 'identificador',
+          type: 'text',
+          placeholder: 'Ingrese su correo registrado'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Confirmar',
+          handler: async (data) => {
+            const usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
+            const usuario = usuarios.find((u: any) => u.correo === data.identificador || u.nombreUsuario === data.identificador);
+  
+            if (usuario) {
+              const passwordAlert = await this.alertController.create({
+                header: 'Nueva Contraseña',
+                inputs: [
+                  {
+                    name: 'newPassword',
+                    type: 'password',
+                    placeholder: 'Ingrese su nueva contraseña'
+                  }
+                ],
+                buttons: [
+                  {
+                    text: 'Cancelar',
+                    role: 'cancel'
+                  },
+                  {
+                    text: 'Guardar',
+                    handler: (passwordData) => {
+                      usuario.contraseña = passwordData.newPassword;
+                      localStorage.setItem('usuarios', JSON.stringify(usuarios));
+                      this.showSuccessAlert();
+                    }
+                  }
+                ]
+              });
+              await passwordAlert.present();
+            } else {
+              const errorAlert = await this.alertController.create({
+                header: 'Usuario no encontrado',
+                message: 'No existe un usuario con ese correo o nombre.',
+                buttons: ['Aceptar']
+              });
+              await errorAlert.present();
+            }
+          }
+        }
+      ]
     });
     await alert.present();
   }
+  
+  async showSuccessAlert() {
+    const successAlert = await this.alertController.create({
+      header: 'Contraseña Actualizada',
+      message: 'Su contraseña ha sido actualizada correctamente.',
+      buttons: ['Aceptar']
+    });
+    await successAlert.present();
+  }
+  
 
   goBack() {
-    this.navCtrl.back(); // Esto te llevará a la página anterior en la pila de navegación.
+    this.navCtrl.back(); 
   }
 }
