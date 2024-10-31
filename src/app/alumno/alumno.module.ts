@@ -7,9 +7,10 @@ import { IonicModule } from '@ionic/angular';
 import { AlumnoPageRoutingModule } from './alumno-routing.module';
 
 import { AlumnoPage } from './alumno.page';
+import { QRCodeModule } from 'angularx-qrcode';
 
 @NgModule({
-  imports: [
+  imports: [ QRCodeModule,
     CommonModule,
     FormsModule,
     IonicModule,

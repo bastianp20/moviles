@@ -1,16 +1,22 @@
-<ion-header [translucent]="true">
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-    <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <ion-title class="ion-text-center">alumno</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-grid>
+    <ion-row class="ion-justify-content-center ion-align-items-center" style="height: 100%;">
+      <ion-col size="12" size-md="8" class="ion-text-center">
+        
+        <ion-text color="primary">
+          <h1 class="ion-text-center">Código QR de Asistencia</h1>
+        </ion-text>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">alumno</ion-title>
-    </ion-toolbar>
-  </ion-header>
+        <ion-item lines="full" class="ion-margin-top">
+          <ion-label position="floating">Ingrese su nombre y apellido</ion-label>
+          <ion-input type="text" [(ngModel)]="texto" clear-input></ion-input>
+        </ion-item>
+
+        <div class="ion-margin-top">
+          <qrcode [qrdata]="texto" [width]="250"></qrcode>
+        </div>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

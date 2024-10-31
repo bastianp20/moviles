@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./alumno.page.scss'],
 })
 export class AlumnoPage implements OnInit {
+  texto:any;
 
   constructor() { }
 
