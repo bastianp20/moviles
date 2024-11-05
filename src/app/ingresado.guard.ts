@@ -9,9 +9,11 @@ export class IngresadoGuard implements CanActivate {
 
   canActivate(): boolean {
     if (localStorage.getItem('ingresado')) {
+      // La sesión está iniciada, permitir el acceso
       return true;
     }
-    this.router.navigate(['/registro-alumnos']);
+    // Si no hay sesión iniciada, redirigir a 'iniciosesion-alumno'
+    this.router.navigate(['/iniciosesion-alumno']);
     return false;
   }
 }
