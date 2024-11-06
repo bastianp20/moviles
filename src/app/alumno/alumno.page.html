@@ -2,9 +2,9 @@
   <ion-grid>
     <ion-row class="ion-justify-content-center ion-align-items-center" style="height: 100%;">
       <ion-col size="12" size-md="8" class="ion-text-center">
-        
+
         <ion-text color="primary">
-          <h1 class="ion-text-center">Código QR de Asistencia</h1>
+          <h1 class="ion-text-center">Generador de Código QR</h1>
         </ion-text>
 
         <ion-item lines="full" class="ion-margin-top">
@@ -12,9 +12,18 @@
           <ion-input type="text" [(ngModel)]="texto" clear-input></ion-input>
         </ion-item>
 
-        <div class="ion-margin-top">
-          <qrcode [qrdata]="texto" [width]="250"></qrcode>
+        <ion-button expand="full" (click)="generarQR()" class="ion-margin-top">
+          Generar QR
+        </ion-button>
+
+        <div class="ion-margin-top" *ngIf="qrCodeData">
+          <qrcode [qrdata]="qrCodeData" [width]="250"></qrcode>
         </div>
+
+        <!-- Botón para escanear QR -->
+        <ion-button expand="full" (click)="irAScanner()" class="ion-margin-top" color="secondary">
+          Escanear QR
+        </ion-button>
 
       </ion-col>
     </ion-row>

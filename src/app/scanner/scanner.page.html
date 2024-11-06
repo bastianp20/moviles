@@ -1,0 +1,21 @@
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-grid>
+    <ion-row class="ion-justify-content-center ion-align-items-center" style="height: 100%;">
+      <ion-col size="12" size-md="8" class="ion-text-center">
+
+        <ion-text color="primary">
+          <h1 class="ion-text-center">Escanear Código QR</h1>
+        </ion-text>
+
+        <ion-button expand="full" (click)="scan()" class="ion-margin-top">
+          Escanear QR
+        </ion-button>
+
+        <ion-item *ngIf="result">
+          {{ result }}
+        </ion-item>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

@@ -40,7 +40,11 @@ const routes: Routes = [
   {
     path: '**',
     redirectTo: 'error404',
+  },  {
+    path: 'scanner',
+    loadChildren: () => import('./scanner/scanner.module').then( m => m.ScannerPageModule)
   }
+
 ];
 
 @NgModule({
