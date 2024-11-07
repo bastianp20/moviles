@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { NoIngresadoGuard } from './noingresado.guard';
 import { IngresadoGuard } from './ingresado.guard';
-
 const routes: Routes = [
   {
     path: 'home',
@@ -38,19 +37,18 @@ const routes: Routes = [
     loadChildren: () => import('./error404/error404.module').then( m => m.Error404PageModule)
   },
   {
-    path: '**',
-    redirectTo: 'error404',
-  },  {
     path: 'scanner',
     loadChildren: () => import('./scanner/scanner.module').then( m => m.ScannerPageModule)
+  },
+  {
+    path: '**',
+    redirectTo: 'error404'
   }
-
 ];
-
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {} 
