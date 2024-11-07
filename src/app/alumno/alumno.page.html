@@ -7,15 +7,33 @@
           <h1 class="ion-text-center">Generador de Código QR</h1>
         </ion-text>
 
+        <!-- Campos de entrada para los datos -->
         <ion-item lines="full" class="ion-margin-top">
-          <ion-label position="floating">Ingrese su nombre y apellido</ion-label>
-          <ion-input type="text" [(ngModel)]="texto" clear-input></ion-input>
+          <ion-label position="floating">Asignatura</ion-label>
+          <ion-input type="text" [(ngModel)]="asignatura" clear-input></ion-input>
         </ion-item>
 
+        <ion-item lines="full" class="ion-margin-top">
+          <ion-label position="floating">Sección</ion-label>
+          <ion-input type="text" [(ngModel)]="seccion" clear-input></ion-input>
+        </ion-item>
+
+        <ion-item lines="full" class="ion-margin-top">
+          <ion-label position="floating">Sala</ion-label>
+          <ion-input type="text" [(ngModel)]="sala" clear-input></ion-input>
+        </ion-item>
+
+        <ion-item lines="full" class="ion-margin-top">
+          <ion-label position="floating">Fecha (YYYYMMDD)</ion-label>
+          <ion-input type="text" [(ngModel)]="fecha" clear-input></ion-input>
+        </ion-item>
+
+        <!-- Botón para generar el QR -->
         <ion-button expand="full" (click)="generarQR()" class="ion-margin-top">
           Generar QR
         </ion-button>
 
+        <!-- Mostrar el QR generado -->
         <div class="ion-margin-top" *ngIf="qrCodeData">
           <qrcode [qrdata]="qrCodeData" [width]="250"></qrcode>
         </div>

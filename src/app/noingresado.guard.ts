@@ -1,3 +1,4 @@
+// NoIngresadoGuard
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 
@@ -8,12 +9,13 @@ export class NoIngresadoGuard implements CanActivate {
   constructor(private router: Router) {}
 
   canActivate(): boolean {
+    console.log('NoIngresadoGuard ejecutado');  // Debug
     if (localStorage.getItem('ingresado')) {
-      // Si la sesión está iniciada, redirigir a 'registro-alumnos'
+      console.log('Sesión iniciada, redirigiendo a registro-alumnos');  // Debug
       this.router.navigate(['/registro-alumnos']);
       return false;
     }
-    // Si no hay sesión iniciada, permitir el acceso
+    console.log('Sesión no iniciada, permitiendo acceso');  // Debug
     return true;
   }
 }
