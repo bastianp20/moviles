@@ -7,22 +7,18 @@ import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
   styleUrls: ['./scanner.page.scss'],
 })
 export class ScannerPage {
-  result: string = '';  // Almacena el resultado del escaneo
-  errorMessage: string = '';  // Mensaje de error si el formato no es correcto
+  result: string = '';  
+  errorMessage: string = '';  
 
   constructor() {}
 
-  // Método para escanear el código QR
   async scan() {
     try {
-      // Inicia el escaneo (sin necesidad de solicitar permisos explícitamente)
       const scanResult = await BarcodeScanner.startScan();
 
-      // Verifica si se escaneó un código QR
       if (scanResult.hasContent) {
-        this.result = scanResult.content;  // Asigna el contenido escaneado al resultado
+        this.result = scanResult.content;
 
-        // Validar el formato esperado
         this.validateQRCode(this.result);
       } else {
         this.errorMessage = 'No se ha escaneado ningún código QR.';
@@ -33,13 +29,11 @@ export class ScannerPage {
     }
   }
 
-  // Validación del formato de QR
   validateQRCode(qrCode: string) {
-    // Expresión regular para verificar el formato PGY4121 | 012D | L9 | 20241104
     const regex = /^[A-Za-z0-9]+ \| [A-Za-z0-9]+ \| [A-Za-z0-9]+ \| \d{8}$/;
     
     if (regex.test(qrCode)) {
-      this.errorMessage = '';  // Si el formato es válido, limpia el mensaje de error
+      this.errorMessage = '';  
     } else {
       this.errorMessage = 'El formato del código QR no es válido.';
     }
