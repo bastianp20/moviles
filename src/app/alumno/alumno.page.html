@@ -1,48 +1,19 @@
-<ion-content [fullscreen]="true" class="ion-padding">
-  <ion-grid>
-    <ion-row class="ion-justify-content-center ion-align-items-center" style="height: 100%;">
-      <ion-col size="12" size-md="8" class="ion-text-center">
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      generar qr
+      </ion-title>
+  </ion-toolbar>
+</ion-header>
 
-        <ion-text color="primary">
-          <h1 class="ion-text-center">Generador de QR</h1>
-        </ion-text>
 
-        <ion-item lines="full" class="ion-margin-top">
-          <ion-label position="floating">Asignatura</ion-label>
-          <ion-input type="text" [(ngModel)]="asignatura" clear-input></ion-input>
-        </ion-item>
-
-        <ion-item lines="full" class="ion-margin-top">
-          <ion-label position="floating">Sección</ion-label>
-          <ion-input type="text" [(ngModel)]="seccion" clear-input></ion-input>
-        </ion-item>
-
-        <ion-item lines="full" class="ion-margin-top">
-          <ion-label position="floating">Sala</ion-label>
-          <ion-input type="text" [(ngModel)]="sala" clear-input></ion-input>
-        </ion-item>
-
-        <ion-item lines="full" class="ion-margin-top">
-          <ion-label position="floating">Fecha (YYYYMMDD)</ion-label>
-          <ion-input type="text" [(ngModel)]="fecha" clear-input></ion-input>
-        </ion-item>
-
-        <!-- Botón para generar el QR -->
-        <ion-button expand="full" (click)="generarQR()" class="ion-margin-top">
-          Generar QR
-        </ion-button>
-
-        <!-- Mostrar el QR generado -->
-        <div class="ion-margin-top" *ngIf="qrCodeData">
-          <qrcode [qrdata]="qrCodeData" [width]="250"></qrcode>
-        </div>
-
-        <!-- Botón para escanear QR -->
-        <ion-button expand="full" (click)="irAScanner()" class="ion-margin-top" color="secondary">
-          Escanear QR
-        </ion-button>
-
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+<ion-content [fullscreen]="true">
+<ion-text color="primary">
+  Generar Qr 
+</ion-text>
+<input type="text"[(ngModel)="texto"]>
+<br><br>
+<qrcode [qrdata]="text" [width]="400">
+  
+</qrcode>
 </ion-content>

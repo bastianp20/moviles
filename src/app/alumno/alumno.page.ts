@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -6,31 +6,12 @@ import { Router } from '@angular/router';
   templateUrl: './alumno.page.html',
   styleUrls: ['./alumno.page.scss'],
 })
-export class AlumnoPage {
+export class AlumnoPage implements OnInit{
 
-  nombreApellido: string = '';
-  asignatura: string = '';
-  seccion: string = '';
-  sala: string = '';
-  fecha: string = '';
+  texto:any;
+  constructor() {} 
 
-  showForm: boolean = false;
+  ngOnInit(){
 
-  qrCodeData: string = '';
-  constructor(private router: Router) {} 
-
-  generarQR() {
-    if (this.asignatura && this.seccion && this.sala && this.fecha) {
-      this.qrCodeData = `${this.asignatura} | ${this.seccion} | ${this.sala} | ${this.fecha}`;
-    } else {
-      alert('Por favor, complete todos los campos.');
-    }
-  }
-  toggleForm() {
-    this.showForm = !this.showForm;
-  }
-
-  irAScanner() {
-    this.router.navigate(['/scanner']); 
   }
 }
