@@ -1,41 +1,36 @@
-import { Component } from '@angular/core';
-import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
+import { Component, OnInit } from '@angular/core';
+import { Html5QrcodeScanner, Html5QrcodeSupportedFormats } from 'html5-qrcode';
 
 @Component({
   selector: 'app-scanner',
   templateUrl: './scanner.page.html',
   styleUrls: ['./scanner.page.scss'],
 })
-export class ScannerPage {
-  result: string = '';  
-  errorMessage: string = '';  
+export class ScannerPage implements OnInit {
+  resultadoEscaneo: string = ''; 
 
-  constructor() {}
+  ngOnInit() {
+    const config = {
+      fps: 10,
+      qrbox: { width: 250, height: 250 },
+      formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
+    };
 
-  async scan() {
-    try {
-      const scanResult = await BarcodeScanner.startScan();
+    const qrCodeScanner = new Html5QrcodeScanner('reader', config, false);
 
-      if (scanResult.hasContent) {
-        this.result = scanResult.content;
-
-        this.validateQRCode(this.result);
-      } else {
-        this.errorMessage = 'No se ha escaneado ningún código QR.';
+    qrCodeScanner.render(
+      (decodedText: string) => {
+        console.log('Texto escaneado:', decodedText); 
+        this.resultadoEscaneo = decodedText; 
+      },
+      (errorMessage: string) => {
+        console.error('Error durante el escaneo:', errorMessage);
       }
-    } catch (error) {
-      console.error('Error al escanear:', error);
-      this.errorMessage = 'Hubo un problema al escanear el código QR.';
-    }
+    );
   }
 
-  validateQRCode(qrCode: string) {
-    const regex = /^[A-Za-z0-9]+ \| [A-Za-z0-9]+ \| [A-Za-z0-9]+ \| \d{8}$/;
-    
-    if (regex.test(qrCode)) {
-      this.errorMessage = '';  
-    } else {
-      this.errorMessage = 'El formato del código QR no es válido.';
-    }
+  ngOnDestroy() {
+    const qrCodeScanner = new Html5QrcodeScanner('reader', { fps: 10, qrbox: { width: 250, height: 250 } }, false);
+    qrCodeScanner.clear().catch((err) => console.error('Error al detener el escáner:', err));
   }
 }

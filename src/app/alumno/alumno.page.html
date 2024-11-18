@@ -1,19 +1,66 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      generar qr
-      </ion-title>
+      Generar QR
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
+<ion-content [fullscreen]="true" class="ion-padding gradient-background">
+  <div style="text-align: center;">
+    <ion-text color="primary">
+      <h2>Generar QR</h2>
+    </ion-text>
+  </div>
 
-<ion-content [fullscreen]="true">
-<ion-text color="primary">
-  Generar Qr 
-</ion-text>
-<input type="text"[(ngModel)="texto"]>
-<br><br>
-<qrcode [qrdata]="text" [width]="400">
-  
-</qrcode>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <ion-item>
+          <ion-label position="floating">Asignatura</ion-label>
+          <ion-input type="text" [(ngModel)]="asignatura"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="12">
+        <ion-item>
+          <ion-label position="floating">Sección</ion-label>
+          <ion-input type="text" [(ngModel)]="seccion"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="12">
+        <ion-item>
+          <ion-label position="floating">Fecha</ion-label>
+          <ion-datetime presentation="date" [(ngModel)]="fecha"></ion-datetime>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="12">
+        <ion-item>
+          <ion-label position="floating">Sala</ion-label>
+          <ion-input type="text" [(ngModel)]="sala"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <br>
+  <div class="qr-container" style="text-align: center;">
+    <qrcode [qrdata]="generarQR()" [width]="200" [errorCorrectionLevel]="'M'"></qrcode>
+  </div>
+
+  <br>
+
+  <div style="text-align: center;">
+    <ion-button color="primary" [routerLink]="['/scanner']" expand="block">
+      Ir al Scanner
+    </ion-button>
+  </div>
 </ion-content>

@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { ScannerPageRoutingModule } from './scanner-routing.module';
 import { ScannerPage } from './scanner.page';
+import { OnInit } from '@angular/core';
 
 @NgModule({
   imports: [

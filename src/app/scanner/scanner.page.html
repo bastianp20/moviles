@@ -1,21 +1,21 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title text-center>Escáner QR</ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content [fullscreen]="true" class="ion-padding">
-  <ion-grid>
-    <ion-row class="ion-justify-content-center ion-align-items-center" style="height: 100%;">
-      <ion-col size="12" size-md="8" class="ion-text-center">
-
-        <ion-text color="primary">
-          <h1 class="ion-text-center">Escanear Código QR</h1>
-        </ion-text>
-
-        <ion-button expand="full" (click)="scan()" class="ion-margin-top">
-          Escanear QR
-        </ion-button>
-
-        <ion-item *ngIf="result">
-          {{ result }}
-        </ion-item>
-
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <ion-text color="primary" class="ion-text-center">
+    <h2>Escanea un código QR</h2>
+  </ion-text>
+  <div id="reader" style="margin: 20px auto; max-width: 300px; height: 300px;"></div>
+  <div *ngIf="resultadoEscaneo" style="text-align: center; margin-top: 10px;">
+    <strong>Resultado:</strong>
+    <p style="word-wrap: break-word;">{{ resultadoEscaneo }}</p>
+  </div>
+  <div style="text-align: center; margin-top: 20px;">
+    <ion-button color="primary" [routerLink]="['/home']" size="small">
+      Volver
+    </ion-button>
+  </div>
 </ion-content>

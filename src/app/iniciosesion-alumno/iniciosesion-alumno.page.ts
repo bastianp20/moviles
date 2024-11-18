@@ -38,14 +38,10 @@ export class IniciosesionAlumnoPage implements OnInit {
       await alert.present();
       return;
     }
-
     const usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
-
     console.log('Usuarios en Local Storage:', usuarios);
     console.log('Datos ingresados:', f);
-
     const usuario = usuarios.find((user: any) => user.correo === f.correo && user.contraseña === f.password);
-
     if (usuario) {
       const alert = await this.alertController.create({
         header: 'Ingreso exitoso',
@@ -53,9 +49,7 @@ export class IniciosesionAlumnoPage implements OnInit {
         buttons: ['Aceptar']
       });
       await alert.present();
-
       localStorage.setItem('ingresado', 'true');
-
       this.navCtrl.navigateRoot('alumno');
     } else {
       const alert = await this.alertController.create({
