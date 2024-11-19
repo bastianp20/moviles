@@ -1,0 +1,30 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+      </ion-buttons>
+    <ion-title class="ion-text-center">
+      Registro de Profesor  
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <form [formGroup]="formularioRegistro" (keyup.enter)="guardar()">
+    <ion-item>
+      <ion-label position="floating">Correo Electrónico</ion-label>
+      <ion-input formControlName="correo"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input formControlName="password" type="password"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating"> Repetir Contraseña</ion-label>
+      <ion-input formControlName="confirmacionpassword" type="password"></ion-input>
+    </ion-item>
+    <br>
+    <ion-button (click)= "guardar()"> Registrarse 
+    </ion-button>
+  </form>
+</ion-content>

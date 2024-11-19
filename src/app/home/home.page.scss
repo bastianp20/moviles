@@ -1,27 +1,38 @@
-#container {
+.custom-background {
+  --background: linear-gradient(135deg, #2196F3, #E3F2FD); /* Fondo degradado */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%; /* Asegura que ocupe toda la pantalla */
+}
+
+.center-container {
+  width: 90%;
+  max-width: 400px;
   text-align: center;
-
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  background: #ffffff;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+.option-card {
+  margin-top: 20px;
+  border-radius: 15px;
+  background: #f8f9fa;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
+h2 {
+  font-size: 1.5rem;
+  color: #333;
 }
 
-#container a {
-  text-decoration: none;
+p {
+  font-size: 1rem;
+  color: #666;
+}
+
+ion-button {
+  font-size: 1rem;
 }

@@ -43,7 +43,19 @@ const routes: Routes = [
   {
     path: '**',
     redirectTo: 'error404'
+  },  {
+    path: 'profesor',
+    loadChildren: () => import('./profesor/profesor.module').then( m => m.ProfesorPageModule)
+  },
+  {
+    path: 'registroprofesor',
+    loadChildren: () => import('./registroprofesor/registroprofesor.module').then( m => m.RegistroprofesorPageModule)
+  },
+  {
+    path: 'iniciosesion-profesor',
+    loadChildren: () => import('./iniciosesion-profesor/iniciosesion-profesor.module').then( m => m.IniciosesionProfesorPageModule)
   }
+
 ];
 @NgModule({
   imports: [

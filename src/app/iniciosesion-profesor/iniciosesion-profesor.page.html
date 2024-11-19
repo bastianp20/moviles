@@ -1,0 +1,38 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        Volver Atrás
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title class="ion-text-center">
+      Inicio de Sesión profesor 
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="resetPassword()">
+        Restablecer Contraseña
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <form [formGroup]="formularioLogin">
+    <ion-item>
+      <ion-label position="floating"> Correo Electrónico profesor </ion-label>
+      <ion-input formControlName="correo"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input formControlName="password" type="password"></ion-input>
+    </ion-item>
+    <ion-button (click)="ingresar()">
+      Iniciar Sesión
+    </ion-button>
+    <ion-button [routerLink]="['/registro-profesor']" expand ="full" type="submit" color="primary">
+      Registrarse
+      </ion-button>
+  </form>
+</ion-content>
