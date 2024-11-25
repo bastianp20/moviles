@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Html5QrcodeScanner, Html5QrcodeSupportedFormats } from 'html5-qrcode';
+import { Html5QrcodeScanner } from 'html5-qrcode';
+import { AsistenciaService } from '../services/asistencia.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-scanner',
@@ -7,30 +9,34 @@ import { Html5QrcodeScanner, Html5QrcodeSupportedFormats } from 'html5-qrcode';
   styleUrls: ['./scanner.page.scss'],
 })
 export class ScannerPage implements OnInit {
-  resultadoEscaneo: string = ''; 
+  constructor(private asistenciaService: AsistenciaService, private router: Router) {}
 
   ngOnInit() {
     const config = {
       fps: 10,
       qrbox: { width: 250, height: 250 },
-      formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
     };
 
     const qrCodeScanner = new Html5QrcodeScanner('reader', config, false);
 
     qrCodeScanner.render(
       (decodedText: string) => {
-        console.log('Texto escaneado:', decodedText); 
-        this.resultadoEscaneo = decodedText; 
+        console.log('Texto escaneado:', decodedText);
+
+        // Parsear el texto escaneado como un objeto JSON
+        try {
+          const asistencia = JSON.parse(decodedText);
+          this.asistenciaService.agregarAsistencia(asistencia);
+          alert('Asistencia registrada con éxito');
+          this.router.navigate(['/alumno']);
+        } catch (error) {
+          console.error('Error al procesar el QR:', error);
+          alert('El código QR no contiene datos válidos');
+        }
       },
       (errorMessage: string) => {
         console.error('Error durante el escaneo:', errorMessage);
       }
     );
-  }
-
-  ngOnDestroy() {
-    const qrCodeScanner = new Html5QrcodeScanner('reader', { fps: 10, qrbox: { width: 250, height: 250 } }, false);
-    qrCodeScanner.clear().catch((err) => console.error('Error al detener el escáner:', err));
   }
 }

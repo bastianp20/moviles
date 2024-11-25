@@ -1,21 +1,33 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title text-center>Escáner QR</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title class="ion-text-center">
+      <ion-icon name="scan-outline" slot="start"></ion-icon> Escanear QR
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding">
-  <ion-text color="primary" class="ion-text-center">
-    <h2> acerque el telefonon al lector porfavor </h2>
-  </ion-text>
-  <div id="reader" style="margin: 20px auto; max-width: 300px; height: 300px;"></div>
-  <div *ngIf="resultadoEscaneo" style="text-align: center; margin-top: 10px;">
-    <strong>Resultado:</strong>
-    <p style="word-wrap: break-word;">{{ resultadoEscaneo }}</p>
+<ion-content [fullscreen]="true" class="ion-padding gradient-background">
+  <!-- Título y descripción -->
+  <div class="section-header">
+    <ion-text color="secondary">
+      <h2 style="text-align: center;">
+        <ion-icon name="qr-code-outline" size="large"></ion-icon> Scanner
+      </h2>
+    </ion-text>
+    <p style="text-align: center; color: var(--ion-color-medium);">
+      Usa el escáner para registrar las asistencias escaneando el código QR.
+    </p>
   </div>
-  <div style="text-align: center; margin-top: 20px;">
-    <ion-button color="primary" [routerLink]="['/home']" size="small">
-      Volver
-    </ion-button>
-  </div>
+
+  <!-- Contenedor del Scanner -->
+  <ion-card style="margin: 20px auto; max-width: 500px;">
+    <ion-card-header>
+      <ion-card-title style="text-align: center; font-size: 1.2rem;">
+        <ion-icon name="camera-outline" slot="start"></ion-icon> Escáner Activo
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div id="reader" style="width: 100%; height: 300px; margin: 0 auto; border: 1px solid var(--ion-color-light); border-radius: 10px;"></div>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

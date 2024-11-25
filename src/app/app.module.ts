@@ -10,10 +10,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Proveedor1Service } from './proveedor1.service';
 import { HttpClientModule } from '@angular/common/http';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { IonicStorageModule } from '@ionic/storage-angular';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, ReactiveFormsModule, HttpClientModule],
+  imports: 
+  [BrowserModule, IonicModule.forRoot(), IonicStorageModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, Proveedor1Service, BarcodeScanner],
   bootstrap: [AppComponent],
 })

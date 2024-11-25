@@ -16,17 +16,17 @@ const routes: Routes = [
   {
     path: 'iniciosesion-alumno',
     loadChildren: () => import('./iniciosesion-alumno/iniciosesion-alumno.module').then( m => m.IniciosesionAlumnoPageModule),
-    canActivate: [NoIngresadoGuard]
+  //  canActivate: [NoIngresadoGuard]
   },
   {
     path: 'registro-alumnos',
     loadChildren: () => import('./registro-alumnos/registro-alumnos.module').then( m => m.RegistroAlumnosPageModule),
-    canActivate: [NoIngresadoGuard]
+   // canActivate: [NoIngresadoGuard]
   },
   {
     path: 'alumno',
     loadChildren: () => import('./alumno/alumno.module').then( m => m.AlumnoPageModule),
-    canActivate: [IngresadoGuard]
+   // canActivate: [IngresadoGuard]
   },
   {
     path: 'inicio',
@@ -39,22 +39,22 @@ const routes: Routes = [
   {
     path: 'scanner',
     loadChildren: () => import('./scanner/scanner.module').then( m => m.ScannerPageModule)
+  },  {
+    path: 'profesor',
+    loadChildren: () => import('./profesor/profesor.module').then( m => m.ProfesorPageModule)
+  },  
+  {
+    path: 'registroprofesor',
+    loadChildren: () => import('./registroprofesor/registroprofesor.module').then( m => m.RegistroprofesorPageModule)
+  },  
+  {
+    path: 'iniciosesion-profesor',
+    loadChildren: () => import('./iniciosesion-profesor/iniciosesion-profesor.module').then( m => m.IniciosesionProfesorPageModule)
   },
   {
     path: '**',
     redirectTo: 'error404'
-  },  {
-    path: 'profesor',
-    loadChildren: () => import('./profesor/profesor.module').then( m => m.ProfesorPageModule)
   },
-  {
-    path: 'registroprofesor',
-    loadChildren: () => import('./registroprofesor/registroprofesor.module').then( m => m.RegistroprofesorPageModule)
-  },
-  {
-    path: 'iniciosesion-profesor',
-    loadChildren: () => import('./iniciosesion-profesor/iniciosesion-profesor.module').then( m => m.IniciosesionProfesorPageModule)
-  }
 
 ];
 @NgModule({

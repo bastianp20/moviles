@@ -1,66 +1,103 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Generar QR
+  <ion-toolbar color="primary">
+    <ion-title class="ion-text-center">
+      <ion-icon name="qr-code" slot="start"></ion-icon> Generar y Ver Asistencias
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding gradient-background">
-  <div style="text-align: center;">
-    <ion-text color="primary">
-      <h2>Generar QR</h2>
+  <!-- Generar QR Section -->
+  <div class="section-header">
+    <ion-text color="tertiary">
+      <h2><ion-icon name="create-outline" size="large"></ion-icon> Generar QR</h2>
     </ion-text>
   </div>
 
-  <ion-grid>
-    <ion-row>
-      <ion-col size="12">
-        <ion-item>
-          <ion-label position="floating">Asignatura</ion-label>
-          <ion-input type="text" [(ngModel)]="asignatura"></ion-input>
-        </ion-item>
-      </ion-col>
-    </ion-row>
+  <ion-card>
+    <ion-card-content>
+      <ion-grid>
+        <!-- Asignatura -->
+        <ion-row>
+          <ion-col size="12">
+            <ion-item>
+              <ion-label position="floating">
+                <ion-icon name="book-outline" slot="start"></ion-icon> Asignatura
+              </ion-label>
+              <ion-input type="text" [(ngModel)]="asignatura"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <!-- Sección -->
+        <ion-row>
+          <ion-col size="12">
+            <ion-item>
+              <ion-label position="floating">
+                <ion-icon name="layers-outline" slot="start"></ion-icon> Sección
+              </ion-label>
+              <ion-input type="text" [(ngModel)]="seccion"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <!-- Fecha -->
+        <ion-row>
+          <ion-col size="12">
+            <ion-item>
+              <ion-label position="floating">
+                <ion-icon name="calendar-outline" slot="start"></ion-icon> Fecha
+              </ion-label>
+              <ion-datetime presentation="date" [(ngModel)]="fecha"></ion-datetime>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <!-- Sala -->
+        <ion-row>
+          <ion-col size="12">
+            <ion-item>
+              <ion-label position="floating">
+                <ion-icon name="business-outline" slot="start"></ion-icon> Sala
+              </ion-label>
+              <ion-input type="text" [(ngModel)]="sala"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
 
-    <ion-row>
-      <ion-col size="12">
-        <ion-item>
-          <ion-label position="floating">Sección</ion-label>
-          <ion-input type="text" [(ngModel)]="seccion"></ion-input>
-        </ion-item>
-      </ion-col>
-    </ion-row>
+      <!-- QR Display -->
+      <div class="qr-container" style="text-align: center; margin-top: 20px;">
+        <qrcode [qrdata]="generarQR()" [width]="200" [errorCorrectionLevel]="'M'"></qrcode>
+      </div>
+    </ion-card-content>
+  </ion-card>
 
-    <ion-row>
-      <ion-col size="12">
-        <ion-item>
-          <ion-label position="floating">Fecha</ion-label>
-          <ion-datetime presentation="date" [(ngModel)]="fecha"></ion-datetime>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-
-    <ion-row>
-      <ion-col size="12">
-        <ion-item>
-          <ion-label position="floating">Sala</ion-label>
-          <ion-input type="text" [(ngModel)]="sala"></ion-input>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
-  <br>
-  <div class="qr-container" style="text-align: center;">
-    <qrcode [qrdata]="generarQR()" [width]="200" [errorCorrectionLevel]="'M'"></qrcode>
+  <!-- Lista de Asistencias -->
+  <div class="section-header" style="margin-top: 20px;">
+    <ion-text color="secondary">
+      <h2><ion-icon name="list-outline" size="large"></ion-icon> Lista de Asistencias</h2>
+    </ion-text>
   </div>
 
-  <br>
-
-  <div style="text-align: center;">
-    <ion-button color="primary" [routerLink]="['/scanner']" expand="block">
-      Ir al Scanner
-    </ion-button>
-  </div>
+  <ion-card>
+    <ion-card-content>
+      <div *ngIf="asistencias.length > 0; else noAsistencias">
+        <ion-list>
+          <ion-item *ngFor="let asistencia of asistencias">
+            <ion-icon name="checkmark-circle-outline" slot="start" color="success"></ion-icon>
+            <ion-label>
+              <h2>{{ asistencia.asignatura }}</h2>
+              <p><strong>Sección:</strong> {{ asistencia.seccion }}</p>
+              <p><strong>Fecha:</strong> {{ asistencia.fecha }}</p>
+              <p><strong>Sala:</strong> {{ asistencia.sala }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </div>
+      <ng-template #noAsistencias>
+        <p class="ion-text-center">
+          <ion-icon name="alert-circle-outline" size="large" color="medium"></ion-icon>
+          No hay asistencias registradas.
+        </p>
+      </ng-template>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
