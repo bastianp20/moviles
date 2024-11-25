@@ -1,0 +1,40 @@
+.gradient-background {
+    --background: linear-gradient(to bottom, #f57c00, #ffb300);
+    color: white;
+  }
+  
+  .login-card {
+    margin: 0 auto;
+    padding: 20px;
+    max-width: 400px;
+  }
+  
+  ion-card {
+    border-radius: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  }
+  
+  ion-card-title ion-icon {
+    color: #f57c00;
+  }
+  
+  ion-card-header {
+    text-align: center;
+  }
+  
+  ion-item {
+    border-radius: 8px;
+    margin: 10px 0;
+    background: #ffffff;
+  }
+  
+  ion-button {
+    margin-top: 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+  }
+  
+  ion-button ion-icon {
+    margin-right: 5px;
+  }
+  

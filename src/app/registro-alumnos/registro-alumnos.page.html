@@ -1,30 +1,54 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-      </ion-buttons>
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
     <ion-title class="ion-text-center">
-      Registro de alumnos 
+      <ion-icon name="person-add-outline"></ion-icon> Registro de Alumnos
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding">
-  <form [formGroup]="formularioRegistro" (keyup.enter)="guardar()">
-    <ion-item>
-      <ion-label position="floating">Correo Electrónico</ion-label>
-      <ion-input formControlName="correo"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Contraseña</ion-label>
-      <ion-input formControlName="password" type="password"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating"> Repetir Contraseña</ion-label>
-      <ion-input formControlName="confirmacionpassword" type="password"></ion-input>
-    </ion-item>
-    <br>
-    <ion-button (click)= "guardar()"> Registrarse 
-    </ion-button>
-  </form>
+<ion-content [fullscreen]="true" class="ion-padding gradient-background">
+  <div class="register-card">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title class="ion-text-center">
+          <ion-icon name="school-outline" size="large"></ion-icon>
+          <br />
+          Crear Cuenta de Alumno
+        </ion-card-title>
+        <ion-card-subtitle class="ion-text-center">
+          Completa los campos para registrarte
+        </ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <form [formGroup]="formularioRegistro" (keyup.enter)="guardar()">
+          <ion-item>
+            <ion-icon slot="start" name="mail-outline"></ion-icon>
+            <ion-label position="floating">Correo Electrónico</ion-label>
+            <ion-input formControlName="correo" type="email"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
+            <ion-label position="floating">Contraseña</ion-label>
+            <ion-input formControlName="password" type="password"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon slot="start" name="refresh-outline"></ion-icon>
+            <ion-label position="floating">Repetir Contraseña</ion-label>
+            <ion-input formControlName="confirmacionpassword" type="password"></ion-input>
+          </ion-item>
+
+          <ion-button expand="full" (click)="guardar()" color="success">
+            <ion-icon slot="start" name="checkmark-outline"></ion-icon>
+            Registrarse
+          </ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>
