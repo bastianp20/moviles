@@ -29,19 +29,12 @@ const routes: Routes = [
    // canActivate: [IngresadoGuard]
   },
   {
-    path: 'inicio',
-    loadChildren: () => import('./inicio/inicio.module').then( m => m.InicioPageModule)
-  },
-  {
     path: 'error404',
     loadChildren: () => import('./error404/error404.module').then( m => m.Error404PageModule)
   },
   {
     path: 'scanner',
     loadChildren: () => import('./scanner/scanner.module').then( m => m.ScannerPageModule)
-  },  {
-    path: 'profesor',
-    loadChildren: () => import('./profesor/profesor.module').then( m => m.ProfesorPageModule)
   },  
   {
     path: 'registroprofesor',

@@ -24,6 +24,14 @@
       </ion-card-header>
 
       <ion-card-content>
+        <!-- Mensaje sobre los parámetros de registro -->
+        <div class="parameters-message ion-text-center">
+          <p class="ion-text-center" style="color: #3880ff; font-weight: bold; margin-bottom: 1rem;">
+            Nota: El correo debe pertenecer al dominio <b>&#64;Eduocuc.cl</b>.
+          </p>
+        </div>
+
+        <!-- Formulario -->
         <form [formGroup]="formularioRegistro" (keyup.enter)="guardar()">
           <ion-item>
             <ion-icon slot="start" name="mail-outline"></ion-icon>

@@ -16,28 +16,29 @@ export class RegistroAlumnosPage implements OnInit {
     public navCtrl: NavController
   ) {
     this.formularioRegistro = this.fb.group({
-      'correo': new FormControl('', [Validators.required, Validators.required]),
+      'correo': new FormControl('', [Validators.required, Validators.email]),
       'password': new FormControl('', Validators.required),
       'confirmacionpassword': new FormControl('', Validators.required)
     });
   }
 
-  ngOnInit() {
-    
-  }
+  ngOnInit() {}
+
   async guardar() {
     const f = this.formularioRegistro.value;
 
+    // Validar campos vacíos
     if (this.formularioRegistro.invalid) {
       const alert = await this.alertController.create({
         header: 'Datos incompletos',
-        message: 'No dejes campos en blanco',
+        message: 'datos erroneos',
         buttons: ['Aceptar']
       });
       await alert.present();
       return;
     }
 
+    // Validar contraseñas coincidan
     if (f.password !== f.confirmacionpassword) {
       const alert = await this.alertController.create({
         header: 'Error de Confirmación',
@@ -48,8 +49,19 @@ export class RegistroAlumnosPage implements OnInit {
       return;
     }
 
-    const usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
+    // Validar dominio del correo
+    if (!f.correo.endsWith('@Eduocuc.cl')) {
+      const alert = await this.alertController.create({
+        header: 'Correo no válido',
+        message: 'El correo debe pertenecer al dominio @Eduocuc.cl.',
+        buttons: ['Aceptar']
+      });
+      await alert.present();
+      return;
+    }
 
+    // Validar si el usuario ya existe
+    const usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
     const usuarioExistente = usuarios.find((user: any) => user.correo === f.correo);
     if (usuarioExistente) {
       const alert = await this.alertController.create({
@@ -61,6 +73,7 @@ export class RegistroAlumnosPage implements OnInit {
       return;
     }
 
+    // Guardar nuevo usuario
     const nuevoUsuario = {
       correo: f.correo,
       contraseña: f.password 
@@ -76,5 +89,5 @@ export class RegistroAlumnosPage implements OnInit {
     });
     await alert.present();
     this.navCtrl.navigateRoot('home');
-}
+  }
 }
