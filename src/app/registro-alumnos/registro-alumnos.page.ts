@@ -10,6 +10,7 @@ import { AlertController, NavController } from '@ionic/angular';
 export class RegistroAlumnosPage implements OnInit {
 
   formularioRegistro: FormGroup;
+  isLoading: boolean = false;  // Nueva variable para controlar el spinner
 
   constructor(public fb: FormBuilder,
     public alertController: AlertController,
@@ -25,6 +26,8 @@ export class RegistroAlumnosPage implements OnInit {
   ngOnInit() {}
 
   async guardar() {
+    this.isLoading = true;  // Mostrar spinner
+
     const f = this.formularioRegistro.value;
 
     // Validar campos vacíos
@@ -35,6 +38,7 @@ export class RegistroAlumnosPage implements OnInit {
         buttons: ['Aceptar']
       });
       await alert.present();
+      this.isLoading = false;  // Ocultar spinner
       return;
     }
 
@@ -46,6 +50,7 @@ export class RegistroAlumnosPage implements OnInit {
         buttons: ['Aceptar']
       });
       await alert.present();
+      this.isLoading = false;  // Ocultar spinner
       return;
     }
 
@@ -57,6 +62,7 @@ export class RegistroAlumnosPage implements OnInit {
         buttons: ['Aceptar']
       });
       await alert.present();
+      this.isLoading = false;  // Ocultar spinner
       return;
     }
 
@@ -70,6 +76,7 @@ export class RegistroAlumnosPage implements OnInit {
         buttons: ['Aceptar']
       });
       await alert.present();
+      this.isLoading = false;  // Ocultar spinner
       return;
     }
 
@@ -89,5 +96,6 @@ export class RegistroAlumnosPage implements OnInit {
     });
     await alert.present();
     this.navCtrl.navigateRoot('home');
+    this.isLoading = false;  // Ocultar spinner
   }
 }

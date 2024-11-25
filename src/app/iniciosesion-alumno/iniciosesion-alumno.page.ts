@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AlertController, NavController } from '@ionic/angular';
+import { AlertController, NavController, LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +16,8 @@ export class IniciosesionAlumnoPage implements OnInit {
     public fb: FormBuilder,
     private router: Router,
     private alertController: AlertController,
-    public navCtrl: NavController
+    public navCtrl: NavController,
+    public loadingController: LoadingController // Importamos LoadingController
   ) {
     this.formularioLogin = this.fb.group({
       correo: new FormControl('', Validators.required),
@@ -29,6 +30,7 @@ export class IniciosesionAlumnoPage implements OnInit {
   async ingresar() {
     const f = this.formularioLogin.value;
 
+    // Validar si el formulario es válido
     if (this.formularioLogin.invalid) {
       const alert = await this.alertController.create({
         header: 'Datos incompletos',
@@ -38,18 +40,30 @@ export class IniciosesionAlumnoPage implements OnInit {
       await alert.present();
       return;
     }
+
+    // Mostrar el spinner
+    const loading = await this.loadingController.create({
+      message: 'Iniciando sesión...',
+      spinner: 'crescent', // Tipo de spinner
+      duration: 5000 // Duración máxima en ms
+    });
+    await loading.present();
+
+    // Buscar usuario en el local storage
     const usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
     console.log('Usuarios en Local Storage:', usuarios);
     console.log('Datos ingresados:', f);
     const usuario = usuarios.find((user: any) => user.correo === f.correo && user.contraseña === f.password);
+
     if (usuario) {
       const alert = await this.alertController.create({
-        header: 'Ingreso exitoso',
-        message: 'Has iniciado sesión correctamente',
-        buttons: ['Aceptar']
+       // header: 'Ingreso exitoso',
+        //message: 'Has iniciado sesión correctamente',
+       // buttons: ['Aceptar']
       });
-      await alert.present();
+      //await alert.present();
       localStorage.setItem('ingresado', 'true');
+      await loading.dismiss(); // Ocultar el spinner
       this.navCtrl.navigateRoot('alumno');
     } else {
       const alert = await this.alertController.create({
@@ -57,7 +71,8 @@ export class IniciosesionAlumnoPage implements OnInit {
         message: 'Correo o contraseña incorrectos. Por favor, intenta nuevamente.',
         buttons: ['Aceptar']
       });
-      await alert.present();
+      //await alert.present();
+      await loading.dismiss(); // Ocultar el spinner
     }
   }
 

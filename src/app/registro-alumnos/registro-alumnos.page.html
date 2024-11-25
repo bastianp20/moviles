@@ -31,6 +31,9 @@
           </p>
         </div>
 
+        <!-- Spinner de carga -->
+        <ion-spinner *ngIf="isLoading" name="crescent" class="ion-padding"></ion-spinner>
+
         <!-- Formulario -->
         <form [formGroup]="formularioRegistro" (keyup.enter)="guardar()">
           <ion-item>

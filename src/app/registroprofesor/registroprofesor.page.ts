@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { AlertController, NavController } from '@ionic/angular';
+import { AlertController, NavController, LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-registroprofesor',
@@ -11,9 +11,11 @@ export class RegistroProfesorPage implements OnInit {
 
   formularioRegistro: FormGroup;
 
-  constructor(public fb: FormBuilder,
+  constructor(
+    public fb: FormBuilder,
     public alertController: AlertController,
-    public navCtrl: NavController
+    public navCtrl: NavController,
+    public loadingController: LoadingController // Importamos LoadingController
   ) {
     this.formularioRegistro = this.fb.group({
       'correo': new FormControl('', [Validators.required, Validators.email]),
@@ -26,15 +28,26 @@ export class RegistroProfesorPage implements OnInit {
 
   async guardar() {
     const f = this.formularioRegistro.value;
+    console.log(f); // Verifica los valores del formulario
+
+    // Mostrar el spinner mientras procesamos el registro
+    const loading = await this.loadingController.create({
+      message: 'Registrando...',
+      spinner: 'crescent', // Tipo de spinner
+      duration: 5000 // Duración máxima en ms
+    });
+    await loading.present();
 
     // Validar campos vacíos
     if (this.formularioRegistro.invalid) {
+      console.log('Formulario inválido');
       const alert = await this.alertController.create({
         header: 'Datos incompletos',
         message: 'No dejes campos en blanco',
         buttons: ['Aceptar']
       });
       await alert.present();
+      await loading.dismiss(); // Ocultar el spinner
       return;
     }
 
@@ -46,6 +59,7 @@ export class RegistroProfesorPage implements OnInit {
         buttons: ['Aceptar']
       });
       await alert.present();
+      await loading.dismiss(); // Ocultar el spinner
       return;
     }
 
@@ -57,6 +71,7 @@ export class RegistroProfesorPage implements OnInit {
         buttons: ['Aceptar']
       });
       await alert.present();
+      await loading.dismiss(); // Ocultar el spinner
       return;
     }
 
@@ -70,6 +85,7 @@ export class RegistroProfesorPage implements OnInit {
         buttons: ['Aceptar']
       });
       await alert.present();
+      await loading.dismiss(); // Ocultar el spinner
       return;
     }
 
@@ -88,6 +104,7 @@ export class RegistroProfesorPage implements OnInit {
       buttons: ['Aceptar']
     });
     await alert.present();
+    await loading.dismiss(); // Ocultar el spinner
     this.navCtrl.navigateRoot('home');
   }
 }

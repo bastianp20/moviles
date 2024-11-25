@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AlertController, NavController } from '@ionic/angular';
+import { AlertController, NavController, LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-iniciosesion-profesor',
@@ -16,7 +16,8 @@ export class IniciosesionProfesorPage implements OnInit {
     public fb: FormBuilder,
     private router: Router,
     private alertController: AlertController,
-    public navCtrl: NavController
+    public navCtrl: NavController,
+    private loadingController: LoadingController // Agregado para el spinner
   ) {
     this.formularioLogin = this.fb.group({
       correo: new FormControl('', Validators.required),
@@ -38,17 +39,30 @@ export class IniciosesionProfesorPage implements OnInit {
       await alert.present();
       return;
     }
+
+    // Mostrar el spinner mientras se verifica el inicio de sesión
+    const loading = await this.loadingController.create({
+      message: 'Iniciando sesión...',
+      spinner: 'crescent', // Tipo de spinner (puedes cambiarlo si lo deseas)
+      duration: 3000 // Duración en ms, puedes ajustarlo según sea necesario
+    });
+    await loading.present();
+
     const usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
     console.log('Usuarios en Local Storage:', usuarios);
     console.log('Datos ingresados:', f);
     const usuario = usuarios.find((user: any) => user.correo === f.correo && user.contraseña === f.password);
+
+    // Ocultar el spinner al finalizar
+    await loading.dismiss();
+
     if (usuario) {
       const alert = await this.alertController.create({
         header: 'Ingreso exitoso',
         message: 'Has iniciado sesión correctamente',
         buttons: ['Aceptar']
       });
-      await alert.present();
+      //await alert.present();
       localStorage.setItem('ingresado', 'true');
       this.navCtrl.navigateRoot('scanner');
     } else {
