@@ -56,13 +56,9 @@ export class IniciosesionAlumnoPage implements OnInit {
     const usuario = usuarios.find((user: any) => user.correo === f.correo && user.contraseña === f.password);
 
     if (usuario) {
-      const alert = await this.alertController.create({
-       // header: 'Ingreso exitoso',
-        //message: 'Has iniciado sesión correctamente',
-       // buttons: ['Aceptar']
-      });
-      //await alert.present();
+      // Guardamos el correo del alumno en el localStorage para que se pueda usar más tarde
       localStorage.setItem('ingresado', 'true');
+      localStorage.setItem('correoAlumno', f.correo); // Guardamos el correo del alumno
       await loading.dismiss(); // Ocultar el spinner
       this.navCtrl.navigateRoot('alumno');
     } else {
@@ -71,7 +67,6 @@ export class IniciosesionAlumnoPage implements OnInit {
         message: 'Correo o contraseña incorrectos. Por favor, intenta nuevamente.',
         buttons: ['Aceptar']
       });
-      //await alert.present();
       await loading.dismiss(); // Ocultar el spinner
     }
   }
@@ -137,7 +132,7 @@ export class IniciosesionAlumnoPage implements OnInit {
     });
     await alert.present();
   }
-  
+
   async showSuccessAlert() {
     const successAlert = await this.alertController.create({
       header: 'Contraseña Actualizada',
@@ -146,7 +141,6 @@ export class IniciosesionAlumnoPage implements OnInit {
     });
     await successAlert.present();
   }
-  
 
   goBack() {
     this.navCtrl.back(); 

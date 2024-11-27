@@ -24,7 +24,11 @@
               <ion-label position="floating">
                 <ion-icon name="book-outline" slot="start"></ion-icon> Asignatura
               </ion-label>
-              <ion-input type="text" [(ngModel)]="asignatura"></ion-input>
+              <ion-select [(ngModel)]="asignatura" placeholder="Selecciona una asignatura">
+                <ion-select-option *ngFor="let asignatura of asignaturasDisponibles">
+                  {{ asignatura }}
+                </ion-select-option>
+              </ion-select>
             </ion-item>
           </ion-col>
         </ion-row>
@@ -79,25 +83,37 @@
 
   <ion-card>
     <ion-card-content>
-      <div *ngIf="asistencias.length > 0; else noAsistencias">
-        <ion-list>
-          <ion-item *ngFor="let asistencia of asistencias">
-            <ion-icon name="checkmark-circle-outline" slot="start" color="success"></ion-icon>
+      <!-- Selección de asignatura -->
+      <ion-item>
+        <ion-label>Asignatura</ion-label>
+        <ion-select
+          [(ngModel)]="asignaturaSeleccionada"
+          placeholder="Selecciona una asignatura"
+          (ionChange)="seleccionarAsignatura(asignaturaSeleccionada)">
+          <ion-select-option *ngFor="let asignatura of asignaturasDisponibles">
+            {{ asignatura }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <!-- Mostrar asistencias -->
+      <div *ngIf="asignaturaSeleccionada">
+        <ion-list *ngIf="asistenciasAgrupadas[asignaturaSeleccionada] && asistenciasAgrupadas[asignaturaSeleccionada].length > 0">
+          <ion-item *ngFor="let asistencia of asistenciasAgrupadas[asignaturaSeleccionada]">
             <ion-label>
-              <h2>{{ asistencia.asignatura }}</h2>
               <p><strong>Sección:</strong> {{ asistencia.seccion }}</p>
               <p><strong>Fecha:</strong> {{ asistencia.fecha }}</p>
               <p><strong>Sala:</strong> {{ asistencia.sala }}</p>
             </ion-label>
           </ion-item>
         </ion-list>
+        <div *ngIf="!asistenciasAgrupadas[asignaturaSeleccionada] || asistenciasAgrupadas[asignaturaSeleccionada].length === 0">
+          <p class="ion-text-center">
+            <ion-icon name="alert-circle-outline" size="large" color="medium"></ion-icon>
+            No tienes asistencia registrada compita.
+          </p>
+        </div>
       </div>
-      <ng-template #noAsistencias>
-        <p class="ion-text-center">
-          <ion-icon name="alert-circle-outline" size="large" color="medium"></ion-icon>
-          No hay asistencias registradas.
-        </p>
-      </ng-template>
     </ion-card-content>
   </ion-card>
 </ion-content>

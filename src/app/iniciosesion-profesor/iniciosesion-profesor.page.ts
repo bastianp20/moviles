@@ -64,7 +64,7 @@ export class IniciosesionProfesorPage implements OnInit {
       });
       //await alert.present();
       localStorage.setItem('ingresado', 'true');
-      this.navCtrl.navigateRoot('scanner');
+      this.navCtrl.navigateRoot('/scanner');
     } else {
       const alert = await this.alertController.create({
         header: 'Error de inicio de sesión',

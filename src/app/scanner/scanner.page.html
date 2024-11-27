@@ -3,10 +3,31 @@
     <ion-title class="ion-text-center">
       <ion-icon name="scan-outline" slot="start"></ion-icon> Escanear QR
     </ion-title>
+    <!-- Botón de tres puntitos -->
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding gradient-background">
+<!-- Menú deslizable para las opciones -->
+<ion-menu contentId="main-content" side="end" menuId="first">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>Menú</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item button (click)="verListaAlumnos()">
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        <ion-label>Lista de Alumnos</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-content [fullscreen]="true" class="ion-padding gradient-background" id="main-content">
   <!-- Título y descripción -->
   <div class="section-header">
     <ion-text color="secondary">
