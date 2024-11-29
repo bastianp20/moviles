@@ -1,0 +1,57 @@
+ion-header {
+    --background: #3880ff;
+  }
+  
+  .alumno-container {
+    margin: 20px;
+  }
+  
+  ion-card {
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  ion-card-header {
+    background-color: #f2f2f2;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  
+  ion-card-title {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  ion-card-content {
+    padding: 10px;
+  }
+  
+  .asistencia-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .asistencia-item ion-icon {
+    margin-right: 10px;
+  }
+  
+  ion-item {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  ion-item p {
+    margin-left: 10px;
+  }
+  
+  ion-item ion-icon {
+    margin-left: 10px;
+  }
+  
+  ion-icon {
+    font-size: 22px;
+  }
+  

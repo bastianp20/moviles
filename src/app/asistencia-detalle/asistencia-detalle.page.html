@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Asistencias de Alumnos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="alumnos.length > 0; else noAlumnos">
+    <div *ngFor="let alumno of alumnos">
+      <h2>{{ alumno.nombre }} ({{ alumno.correo }})</h2>
+      <div *ngIf="asistenciasPorAlumno[alumno.correo] && asistenciasPorAlumno[alumno.correo].length > 0; else noAsistencias">
+        <ul>
+          <li *ngFor="let asistencia of asistenciasPorAlumno[alumno.correo]">
+            <p>Asignatura: {{ asistencia.asignatura }}</p>
+            <p>Fecha: {{ asistencia.fecha }}</p>
+            <!-- Aquí puedes agregar más detalles de la asistencia -->
+          </li>
+        </ul>
+      </div>
+      <ng-template #noAsistencias>
+        <p>No hay asistencias registradas para este alumno.</p>
+      </ng-template>
+    </div>
+  </div>
+
+  <ng-template #noAlumnos>
+    <p>No hay alumnos registrados con el dominio &#64;Eduocuc.cl</p>
+  </ng-template>
+</ion-content>

@@ -60,7 +60,7 @@ export class IniciosesionAlumnoPage implements OnInit {
       localStorage.setItem('ingresado', 'true');
       localStorage.setItem('correoAlumno', f.correo); // Guardamos el correo del alumno
       await loading.dismiss(); // Ocultar el spinner
-      this.router.navigate(['/alumno']); // Redirigir a la página de alumno
+      this.router.navigate(['/scanner']); // Redirigir a la página de alumno
     } else {
       const alert = await this.alertController.create({
         header: 'Error de inicio de sesión',

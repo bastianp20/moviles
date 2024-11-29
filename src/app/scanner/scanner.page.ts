@@ -1,55 +1,47 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { Html5QrcodeScanner } from 'html5-qrcode';
-import { AsistenciaService } from '../services/asistencia.service';
-import { Router } from '@angular/router';
+import { AsistenciaService } from '../services/asistencia.service'; // Importar el servicio de asistencia
+import { AuthService } from '../services/auth.service';  // Importar el servicio de autenticación
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-scanner',
   templateUrl: './scanner.page.html',
   styleUrls: ['./scanner.page.scss'],
 })
-export class ScannerPage implements OnInit {
-  // Variable para almacenar la lista de alumnos
-  alumnos: any[] = [];
-  usuario: any; // Variable para almacenar la información del usuario autenticado
+export class ScannerPage implements AfterViewInit {
+  mensajeEstado: string = '';  // Mensaje de estado
+  listaAlumnos: any[] = [];  // Almacenaremos objetos de alumnos con propiedades asignatura y sala
+  listaAsistencias: any[] = [];  // Guardar las asistencias de un alumno seleccionado
+  qrEscaneado: boolean = false;  // Bandera para evitar múltiples escaneos
+  alumnoSeleccionado: string = '';  // Almacena el alumno seleccionado para mostrar sus asistencias
 
-  constructor(private asistenciaService: AsistenciaService, private router: Router) {}
+  constructor(
+    private asistenciaService: AsistenciaService,
+    private authService: AuthService,  // Inyectar AuthService para acceder a los usuarios
+    private navCtrl: NavController
+  ) {}
 
-  ngOnInit() {
-    // Verificar si hay un usuario autenticado en el localStorage
-    const usuario = localStorage.getItem('usuario');
-    if (usuario) {
-      this.usuario = JSON.parse(usuario);
-    } else {
-      this.router.navigate(['/iniciosesion-alumno']); // Redirigir a login si no hay sesión iniciada
-    }
+  ngAfterViewInit() {
+    this.iniciarScanner();
+    this.obtenerAlumnos();  // Obtener los alumnos registrados al iniciar la página
+  }
 
+  // Iniciar el scanner QR
+  iniciarScanner() {
     const config = {
-      fps: 10,
-      qrbox: { width: 250, height: 250 },
+      fps: 10, // Velocidad de escaneo
+      qrbox: { width: 250, height: 250 }, // Tamaño del cuadro de escaneo
     };
 
     const qrCodeScanner = new Html5QrcodeScanner('reader', config, false);
 
     qrCodeScanner.render(
       (decodedText: string) => {
-        console.log('Texto escaneado:', decodedText);
-
-        // Parsear el texto escaneado como un objeto JSON
-        try {
-          const asistencia = JSON.parse(decodedText);
-
-          // Comprobar que el alumno que está registrando asistencia coincide con el que está logueado
-          if (asistencia.correo === this.usuario.correo) {
-            this.asistenciaService.agregarAsistencia(asistencia);
-            alert('Asistencia registrada con éxito');
-            this.router.navigate(['/alumno']);
-          } else {
-            alert('Este alumno no está registrado para esta sesión.');
-          }
-        } catch (error) {
-          console.error('Error al procesar el QR:', error);
-          alert('El código QR no contiene datos válidos');
+        // Solo procesar el QR si no se ha escaneado antes
+        if (!this.qrEscaneado) {
+          console.log('Texto escaneado:', decodedText);
+          this.procesarQR(decodedText); // Procesar el QR escaneado
         }
       },
       (errorMessage: string) => {
@@ -58,15 +50,51 @@ export class ScannerPage implements OnInit {
     );
   }
 
-  // Función para navegar a la lista de alumnos
-  verListaAlumnos() {
-    if (this.usuario) {
-      // Solo se muestran los alumnos que tienen la sesión iniciada
-      this.alumnos = this.asistenciaService.obtenerAlumnos().filter((alumno: any) => alumno.correo === this.usuario.correo);
-      console.log('Lista de alumnos:', this.alumnos);
-    } else {
-      alert('Por favor, inicia sesión para ver la lista de alumnos.');
-      this.router.navigate(['/iniciosesion-alumno']);
+  // Procesar QR escaneado y registrar la asistencia
+  procesarQR(decodedText: string) {
+    try {
+      const asistencia = JSON.parse(decodedText); // Decodificar el QR
+      this.asistenciaService.agregarAsistencia(asistencia); // Registrar la asistencia usando el servicio
+      this.mensajeEstado = `Asistencia registrada para ${asistencia.asignatura} en ${asistencia.sala}.`;
+
+      // Marcar como escaneado
+      this.qrEscaneado = true;
+
+      // Resetear la bandera después de un tiempo para permitir nuevos escaneos si es necesario
+      setTimeout(() => {
+        this.qrEscaneado = false;
+      }, 5000);  // Espera de 5 segundos antes de permitir un nuevo escaneo (puedes ajustarlo según sea necesario)
+    } catch (error) {
+      console.error('Error al procesar el QR:', error);
+      this.mensajeEstado = 'El código QR no contiene datos válidos.';
     }
+  }
+
+  // Función para obtener los alumnos registrados usando AuthService
+  obtenerAlumnos() {
+    const alumnos = this.authService.getUsuarios();  // Obtener los alumnos desde el AuthService
+    this.listaAlumnos = alumnos
+      .filter((alumno: any) => alumno.correo.endsWith('@Eduocuc.cl'))  // Filtrar solo alumnos con el dominio @Eduocuc.cl
+      .map((alumno: any) => {
+        // Asegurarse de que 'asignatura' y 'sala' existen antes de mapear
+        return {
+          correo: alumno.correo,
+          asignatura: alumno.asignatura || 'No asignada',  // Valor predeterminado si no existe 'asignatura'
+          sala: alumno.sala || 'No especificada'  // Valor predeterminado si no existe 'sala'
+        };
+      });
+  }
+
+  // Función para mostrar las asistencias de un alumno
+  verAsistencias(alumno: string) {
+    this.alumnoSeleccionado = alumno; // Establecer el alumno seleccionado
+    this.listaAsistencias = this.asistenciaService.obtenerAsistenciasPorAlumno(alumno); // Obtener asistencias del alumno
+    console.log(`Asistencias de ${alumno}:`, this.listaAsistencias); // Log para verificar
+  }
+
+  // Función para mostrar la lista de alumnos (en caso de que sea necesario)
+  verListaAlumnos() {
+    console.log(this.listaAlumnos);
+    this.navCtrl.navigateRoot('asistencia-detalle');
   }
 }

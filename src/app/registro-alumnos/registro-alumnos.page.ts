@@ -19,7 +19,10 @@ export class RegistroAlumnosPage implements OnInit {
     this.formularioRegistro = this.fb.group({
       'correo': new FormControl('', [Validators.required, Validators.email]),
       'password': new FormControl('', Validators.required),
-      'confirmacionpassword': new FormControl('', Validators.required)
+      'confirmacionpassword': new FormControl('', Validators.required),
+      'apellido': new FormControl('', Validators.required),   // Nuevo campo
+      'edad': new FormControl('', [Validators.required, Validators.min(18)]),  // Nuevo campo
+      'rut': new FormControl('', [Validators.required])  // Nuevo campo
     });
   }
 
@@ -34,7 +37,7 @@ export class RegistroAlumnosPage implements OnInit {
     if (this.formularioRegistro.invalid) {
       const alert = await this.alertController.create({
         header: 'Datos incompletos',
-        message: 'datos erroneos',
+        message: 'Datos erróneos',
         buttons: ['Aceptar']
       });
       await alert.present();
@@ -83,7 +86,10 @@ export class RegistroAlumnosPage implements OnInit {
     // Guardar nuevo usuario
     const nuevoUsuario = {
       correo: f.correo,
-      contraseña: f.password 
+      contraseña: f.password,
+      apellido: f.apellido,    // Guardamos el apellido
+      edad: f.edad,            // Guardamos la edad
+      rut: f.rut               // Guardamos el RUT
     };
 
     usuarios.push(nuevoUsuario);

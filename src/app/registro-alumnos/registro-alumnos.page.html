@@ -36,24 +36,49 @@
 
         <!-- Formulario -->
         <form [formGroup]="formularioRegistro" (keyup.enter)="guardar()">
+          <!-- Campo de Correo Electrónico -->
           <ion-item>
             <ion-icon slot="start" name="mail-outline"></ion-icon>
             <ion-label position="floating">Correo Electrónico</ion-label>
             <ion-input formControlName="correo" type="email"></ion-input>
           </ion-item>
 
+          <!-- Campo de Apellido -->
+          <ion-item>
+            <ion-icon slot="start" name="person-outline"></ion-icon>
+            <ion-label position="floating">Apellido</ion-label>
+            <ion-input formControlName="apellido" type="text"></ion-input>
+          </ion-item>
+
+          <!-- Campo de Edad -->
+          <ion-item>
+            <ion-icon slot="start" name="calendar-outline"></ion-icon>
+            <ion-label position="floating">Edad</ion-label>
+            <ion-input formControlName="edad" type="number"></ion-input>
+          </ion-item>
+
+          <!-- Campo de RUT -->
+          <ion-item>
+            <ion-icon slot="start" name="card-outline"></ion-icon>
+            <ion-label position="floating">RUT</ion-label>
+            <ion-input formControlName="rut" type="text"></ion-input>
+          </ion-item>
+
+          <!-- Campo de Contraseña -->
           <ion-item>
             <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
             <ion-label position="floating">Contraseña</ion-label>
             <ion-input formControlName="password" type="password"></ion-input>
           </ion-item>
 
+          <!-- Campo de Confirmación de Contraseña -->
           <ion-item>
             <ion-icon slot="start" name="refresh-outline"></ion-icon>
             <ion-label position="floating">Repetir Contraseña</ion-label>
             <ion-input formControlName="confirmacionpassword" type="password"></ion-input>
           </ion-item>
 
+          <!-- Botón para Registrarse -->
           <ion-button expand="full" (click)="guardar()" color="success">
             <ion-icon slot="start" name="checkmark-outline"></ion-icon>
             Registrarse

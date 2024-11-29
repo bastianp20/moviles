@@ -43,11 +43,15 @@ const routes: Routes = [
   {
     path: 'iniciosesion-profesor',
     loadChildren: () => import('./iniciosesion-profesor/iniciosesion-profesor.module').then( m => m.IniciosesionProfesorPageModule)
+  },  {
+    path: 'asistencia-detalle',
+    loadChildren: () => import('./asistencia-detalle/asistencia-detalle.module').then( m => m.AsistenciaDetallePageModule)
   },
   {
     path: '**',
     redirectTo: 'error404'
   },
+
 
 ];
 @NgModule({

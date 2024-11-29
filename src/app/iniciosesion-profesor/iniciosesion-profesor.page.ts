@@ -1,3 +1,6 @@
+
+// esta pagina redirige a alumno pero se supone que cumple la funcion de scanner 
+
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -64,7 +67,7 @@ export class IniciosesionProfesorPage implements OnInit {
       });
       //await alert.present();
       localStorage.setItem('ingresado', 'true');
-      this.navCtrl.navigateRoot('/scanner');
+      this.navCtrl.navigateRoot('/alumno');
     } else {
       const alert = await this.alertController.create({
         header: 'Error de inicio de sesión',
@@ -150,4 +153,4 @@ export class IniciosesionProfesorPage implements OnInit {
   goBack() {
     this.navCtrl.back(); 
   }
-}
+}  
