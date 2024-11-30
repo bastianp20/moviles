@@ -32,8 +32,13 @@ export class AsistenciaDetallePage implements OnInit {
   cargarAsistencias() {
     // Carga las asistencias de cada alumno
     this.alumnos.forEach((alumno) => {
-      const asistencias = this.asistenciaService.obtenerAsistenciasPorAlumno(alumno.correo);
+      const asistencias =
+        this.asistenciaService.obtenerAsistenciasPorAlumno(alumno.correo) || [];
       this.asistenciasPorAlumno[alumno.correo] = asistencias;
     });
+  }
+
+  obtenerUsuarioDesdeCorreo(correo: string): string {
+    return correo.split('@')[0]; // Obtiene el nombre de usuario antes del '@'
   }
 }

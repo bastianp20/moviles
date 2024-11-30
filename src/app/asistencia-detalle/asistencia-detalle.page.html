@@ -1,29 +1,56 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Asistencias de Alumnos</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title class="ion-text-center">
+      📋 Asistencias de Alumnos
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div *ngIf="alumnos.length > 0; else noAlumnos">
-    <div *ngFor="let alumno of alumnos">
-      <h2>{{ alumno.nombre }} ({{ alumno.correo }})</h2>
-      <div *ngIf="asistenciasPorAlumno[alumno.correo] && asistenciasPorAlumno[alumno.correo].length > 0; else noAsistencias">
-        <ul>
-          <li *ngFor="let asistencia of asistenciasPorAlumno[alumno.correo]">
-            <p>Asignatura: {{ asistencia.asignatura }}</p>
-            <p>Fecha: {{ asistencia.fecha }}</p>
-            <!-- Aquí puedes agregar más detalles de la asistencia -->
-          </li>
-        </ul>
+  <ion-card *ngIf="alumnos.length > 0; else noAlumnos" class="alumno-card">
+    <ion-card-content>
+      <div *ngFor="let alumno of alumnos" class="alumno-container">
+        <!-- Información del Alumno -->
+        <ion-item color="light" lines="full">
+          <ion-icon name="person-circle-outline" slot="start" color="tertiary"></ion-icon>
+          <ion-label>
+            <h2>{{ alumno.nombre }} ({{ obtenerUsuarioDesdeCorreo(alumno.correo) }})</h2>
+            <p>✉️ <strong>Correo:</strong> {{ alumno.correo }}</p>
+          </ion-label>
+        </ion-item>
+        <div class="detalle-alumno">
+          <p>📝 <strong>Apellido:</strong> {{ alumno.apellido }}</p>
+          <p>📇 <strong>RUT:</strong> {{ alumno.rut }}</p>
+          <p>🎂 <strong>Edad:</strong> {{ alumno.edad }}</p>
+        </div>
+
+        <!-- Asistencias del Alumno -->
+        <div *ngIf="asistenciasPorAlumno[alumno.correo] && asistenciasPorAlumno[alumno.correo].length > 0; else noAsistencias" class="asistencias-container">
+          <h3>✅ Asistencias Registradas</h3>
+          <ion-list>
+            <ion-item *ngFor="let asistencia of asistenciasPorAlumno[alumno.correo]" color="secondary">
+              <ion-icon name="book-outline" slot="start"></ion-icon>
+              <ion-label>
+                <p>📚 <strong>Asignatura:</strong> {{ asistencia.asignatura }}</p>
+                <p>📅 <strong>Fecha:</strong> {{ asistencia.fecha }}</p>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </div>
+
+        <ng-template #noAsistencias>
+          <p class="no-asistencias">❌ No hay asistencias registradas para este alumno.</p>
+        </ng-template>
       </div>
-      <ng-template #noAsistencias>
-        <p>No hay asistencias registradas para este alumno.</p>
-      </ng-template>
-    </div>
-  </div>
+    </ion-card-content>
+  </ion-card>
 
   <ng-template #noAlumnos>
-    <p>No hay alumnos registrados con el dominio &#64;Eduocuc.cl</p>
+    <ion-card color="warning" class="no-alumnos">
+      <ion-card-content>
+        <ion-icon name="alert-circle-outline" size="large" color="danger"></ion-icon>
+        <p>No hay alumnos registrados con el dominio <strong>&#64;Eduocuc.cl</strong>.</p>
+      </ion-card-content>
+    </ion-card>
   </ng-template>
 </ion-content>

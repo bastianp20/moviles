@@ -1,29 +1,13 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
     <ion-title class="ion-text-center">
-      <ion-icon name="scan-outline" slot="start"></ion-icon> Escanear QR
+      <ion-icon name="scan-outline" slot="start"></ion-icon> Pagina Alumno
     </ion-title>
     <ion-buttons slot="end">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
-<ion-menu contentId="main-content" side="end" menuId="first">
-  <ion-header>
-    <ion-toolbar color="primary">
-      <ion-title>Menú</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content>
-    <ion-list>
-      <ion-item button (click)="verListaAlumnos()">
-        <ion-icon name="person-outline" slot="start"></ion-icon>
-        <ion-label>Lista de Alumnos</ion-label>
-      </ion-item>
-    </ion-list>
-  </ion-content>
-</ion-menu> 
 
 <ion-content [fullscreen]="true" class="ion-padding gradient-background" id="main-content">
   <div class="section-header">
@@ -61,15 +45,4 @@
       </ion-text>
     </ion-card-content>
   </ion-card>
-
-  <!-- Lista de alumnos -->
-  <ion-card *ngIf="listaAlumnos.length > 0" style="margin: 20px auto; max-width: 500px;">
-    <ion-list>
-      <ion-item *ngFor="let alumno of listaAlumnos" (click)="verAsistencias(alumno)">
-        <ion-label>{{ alumno.asignatura }} - {{ alumno.sala }}</ion-label>
-      </ion-item>
-    </ion-list>
-  </ion-card>
-  
-  
 </ion-content>

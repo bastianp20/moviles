@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AsistenciaService } from 'src/app/services/asistencia.service';  // Importa AsistenciaService
-import { AuthService } from '../services/auth.service';  // Importa AuthService
+import { AsistenciaService } from 'src/app/services/asistencia.service';
+import { AuthService } from '../services/auth.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-alumno',
@@ -16,28 +17,25 @@ export class AlumnoPage implements OnInit {
   asistenciasAgrupadas: { [key: string]: any[] } = {};
   asignaturasDisponibles: string[] = ['Matemáticas', 'Inglés', 'Móviles', 'Arquitectura'];
   asignaturaSeleccionada: string = '';
-  usuario: any = null; // Variable para almacenar el usuario autenticado
+  usuario: any = null;
+
+  listaAlumnos: any[] = []; // Lista de alumnos registrada
+  alumnoSeleccionado: string = ''; // Almacena el alumno seleccionado
 
   constructor(
-    private asistenciaService: AsistenciaService, // Inyecta el servicio de asistencia
-    private authService: AuthService // Inyecta el servicio de autenticación
-  ) {}
+    private asistenciaService: AsistenciaService,
+     private authService: AuthService,
+     private navCtrl: NavController
+    ) {}
 
   ngOnInit() {
-    // Obtiene las asistencias y las agrupa
     this.asistencias = this.asistenciaService.obtenerAsistencias();
     this.actualizarAsistenciasAgrupadas();
+    this.obtenerAlumnos(); // Mover lógica de alumnos aquí
 
-    // Verifica si el usuario está autenticado
-    const correo = 'usuario@eduocuc.cl';  // Asegúrate de reemplazar esto con el correo del usuario actual
-    const password = 'contraseñaDelUsuario';  // Asegúrate de reemplazar esto con la contraseña del usuario
-
+    const correo = 'usuario@eduocuc.cl';
+    const password = 'contraseñaDelUsuario';
     this.usuario = this.authService.validarUsuario(correo, password);
-    if (this.usuario) {
-      console.log('Usuario autenticado:', this.usuario);
-    } else {
-      console.error('Usuario no encontrado o contraseña incorrecta');
-    }
   }
 
   generarQR() {
@@ -49,6 +47,28 @@ export class AlumnoPage implements OnInit {
     });
   }
 
+  verListaAlumnos() {
+    console.log(this.listaAlumnos);
+    this.navCtrl.navigateRoot('asistencia-detalle');
+  }
+
+  obtenerAlumnos() {
+    const alumnos = this.authService.getUsuarios();
+    this.listaAlumnos = alumnos
+      .filter((alumno: any) => alumno.correo.endsWith('@Eduocuc.cl'))
+      .map((alumno: any) => ({
+        correo: alumno.correo,
+        asignatura: alumno.asignatura || 'No asignada',
+        sala: alumno.sala || 'No especificada',
+      }));
+  }
+
+  verAsistencias(alumno: string) {
+    this.alumnoSeleccionado = alumno;
+    this.asistencias = this.asistenciaService.obtenerAsistenciasPorAlumno(alumno);
+    this.actualizarAsistenciasAgrupadas();
+  }
+
   registrarAsistencia() {
     if (this.asignatura && this.seccion && this.fecha && this.sala) {
       const nuevaAsistencia = {
@@ -56,18 +76,13 @@ export class AlumnoPage implements OnInit {
         seccion: this.seccion,
         fecha: this.fecha,
         sala: this.sala,
-        alumnoCorreo: this.usuario?.correo // Aquí estamos utilizando el correo del usuario autenticado
+        alumnoCorreo: this.usuario?.correo,
       };
 
-      console.log('Guardando asistencia:', nuevaAsistencia); // Log para verificar los datos
       this.asistenciaService.agregarAsistencia(nuevaAsistencia);
-  
-      // Verificar si las asistencias se actualizan correctamente
       this.asistencias = this.asistenciaService.obtenerAsistencias();
       this.actualizarAsistenciasAgrupadas();
-  
       this.limpiarFormulario();
-      console.log('Asistencia registrada:', nuevaAsistencia);
     } else {
       console.error('Por favor completa todos los campos antes de registrar la asistencia.');
     }
@@ -76,16 +91,10 @@ export class AlumnoPage implements OnInit {
   actualizarAsistenciasAgrupadas() {
     this.asistenciasAgrupadas = this.asistencias.reduce((acc: any, asistencia: any) => {
       const asignatura = asistencia.asignatura || 'Sin asignatura';
-      if (!acc[asignatura]) {
-        acc[asignatura] = [];
-      }
+      if (!acc[asignatura]) acc[asignatura] = [];
       acc[asignatura].push(asistencia);
       return acc;
     }, {});
-  }
-
-  seleccionarAsignatura(asignatura: string) {
-    this.asignaturaSeleccionada = asignatura;
   }
 
   limpiarFormulario() {
