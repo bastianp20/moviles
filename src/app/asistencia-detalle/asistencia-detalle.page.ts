@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { AsistenciaService } from '../services/asistencia.service';
+import { Asistencia } from '../services/asistencia.model'; // Importa la interfaz correctamente
 
 @Component({
   selector: 'app-asistencia-detalle',
@@ -9,7 +10,7 @@ import { AsistenciaService } from '../services/asistencia.service';
 })
 export class AsistenciaDetallePage implements OnInit {
   alumnos: any[] = []; // Lista de alumnos filtrados
-  asistenciasPorAlumno: { [key: string]: any[] } = {}; // Objeto para almacenar las asistencias por alumno
+  asistenciasPorAlumno: { [key: string]: Asistencia[] } = {}; // Objeto para almacenar las asistencias por alumno
 
   constructor(
     private authService: AuthService,
@@ -21,24 +22,23 @@ export class AsistenciaDetallePage implements OnInit {
     this.cargarAsistencias();
   }
 
+  /**
+   * Cargar alumnos con correos que terminan en @Eduocuc.cl
+   */
   cargarAlumnos() {
-    // Filtra los alumnos con el dominio @Eduocuc.cl
     const usuarios = this.authService.getUsuarios();
     this.alumnos = usuarios.filter((usuario: any) =>
       usuario.correo.endsWith('@Eduocuc.cl')
     );
   }
 
+  /**
+   * Cargar todas las asistencias desde el servicio
+   */
   cargarAsistencias() {
-    // Carga las asistencias de cada alumno
-    this.alumnos.forEach((alumno) => {
-      const asistencias =
-        this.asistenciaService.obtenerAsistenciasPorAlumno(alumno.correo) || [];
+    this.alumnos.forEach(alumno => {
+      const asistencias = this.asistenciaService.obtenerAsistenciasPorAlumno(alumno.correo) || [];
       this.asistenciasPorAlumno[alumno.correo] = asistencias;
     });
-  }
-
-  obtenerUsuarioDesdeCorreo(correo: string): string {
-    return correo.split('@')[0]; // Obtiene el nombre de usuario antes del '@'
   }
 }

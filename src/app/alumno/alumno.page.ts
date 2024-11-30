@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AsistenciaService } from 'src/app/services/asistencia.service';
 import { AuthService } from '../services/auth.service';
 import { NavController } from '@ionic/angular';
+import { AlumnoService } from 'src/app/services/alumno.service'; // Asegúrate de importar el servicio
 
 @Component({
   selector: 'app-alumno',
@@ -9,53 +10,41 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./alumno.page.scss'],
 })
 export class AlumnoPage implements OnInit {
-  asistencias: any[] = [];
+  asignaturasDisponibles: string[] = ['Arquitectura', 'Ingles', 'Moviles', 'Matematicas'];
   asignatura: string = '';
   seccion: string = '';
   fecha: string = '';
   sala: string = '';
-  asistenciasAgrupadas: { [key: string]: any[] } = {};
-  asignaturasDisponibles: string[] = ['Matemáticas', 'Inglés', 'Móviles', 'Arquitectura'];
-  asignaturaSeleccionada: string = '';
+  
+  listaAlumnos: any[] = [];
+  asistencias: any[] = [];
   usuario: any = null;
-
-  listaAlumnos: any[] = []; // Lista de alumnos registrada
-  alumnoSeleccionado: string = ''; // Almacena el alumno seleccionado
 
   constructor(
     private asistenciaService: AsistenciaService,
-     private authService: AuthService,
-     private navCtrl: NavController
-    ) {}
+    private authService: AuthService,
+    private navCtrl: NavController,
+    private alumnoService: AlumnoService // Inyecta el servicio aquí
+  ) {}
 
   ngOnInit() {
+    const correo = 'usuario@eduocuc.cl'; // Suponiendo que se obtiene del login
+    this.usuario = this.authService.validarUsuario(correo, 'contraseñaDelUsuario');
+    this.obtenerAlumnos();
     this.asistencias = this.asistenciaService.obtenerAsistencias();
-    this.actualizarAsistenciasAgrupadas();
-    this.obtenerAlumnos(); // Mover lógica de alumnos aquí
 
-    const correo = 'usuario@eduocuc.cl';
-    const password = 'contraseñaDelUsuario';
-    this.usuario = this.authService.validarUsuario(correo, password);
-  }
-
-  generarQR() {
-    return JSON.stringify({
-      asignatura: this.asignatura,
-      seccion: this.seccion,
-      fecha: this.fecha,
-      sala: this.sala,
-    });
-  }
-
-  verListaAlumnos() {
-    console.log(this.listaAlumnos);
-    this.navCtrl.navigateRoot('asistencia-detalle');
+    // Si se ha escaneado un QR y los datos están disponibles, agregar el alumno
+    const alumnoData = this.alumnoService.getAlumnoData();
+    if (alumnoData) {
+      this.agregarAlumnoDesdeQR(alumnoData);
+      this.alumnoService.clearAlumnoData(); // Limpiar los datos después de usarlos
+    }
   }
 
   obtenerAlumnos() {
     const alumnos = this.authService.getUsuarios();
     this.listaAlumnos = alumnos
-      .filter((alumno: any) => alumno.correo.endsWith('@Eduocuc.cl'))
+      .filter((alumno: any) => alumno.correo.endsWith('@Eduocuc.cl')) // Filtra alumnos por dominio
       .map((alumno: any) => ({
         correo: alumno.correo,
         asignatura: alumno.asignatura || 'No asignada',
@@ -63,44 +52,37 @@ export class AlumnoPage implements OnInit {
       }));
   }
 
+  // Método para mostrar las asistencias de un alumno
   verAsistencias(alumno: string) {
-    this.alumnoSeleccionado = alumno;
     this.asistencias = this.asistenciaService.obtenerAsistenciasPorAlumno(alumno);
-    this.actualizarAsistenciasAgrupadas();
   }
 
-  registrarAsistencia() {
-    if (this.asignatura && this.seccion && this.fecha && this.sala) {
-      const nuevaAsistencia = {
-        asignatura: this.asignatura,
-        seccion: this.seccion,
-        fecha: this.fecha,
-        sala: this.sala,
-        alumnoCorreo: this.usuario?.correo,
-      };
-
-      this.asistenciaService.agregarAsistencia(nuevaAsistencia);
-      this.asistencias = this.asistenciaService.obtenerAsistencias();
-      this.actualizarAsistenciasAgrupadas();
-      this.limpiarFormulario();
-    } else {
-      console.error('Por favor completa todos los campos antes de registrar la asistencia.');
-    }
+  // Método para ver la lista de alumnos (correspondiente a la llamada en el template)
+  verListaAlumnos() {
+    console.log('Lista de alumnos', this.listaAlumnos);
+    this.navCtrl.navigateRoot('/asistencia-detalle');
+    // Puedes agregar más lógica si es necesario
   }
 
-  actualizarAsistenciasAgrupadas() {
-    this.asistenciasAgrupadas = this.asistencias.reduce((acc: any, asistencia: any) => {
-      const asignatura = asistencia.asignatura || 'Sin asignatura';
-      if (!acc[asignatura]) acc[asignatura] = [];
-      acc[asignatura].push(asistencia);
-      return acc;
-    }, {});
+  // Método para agregar un alumno desde los datos del QR
+  agregarAlumnoDesdeQR(datosQR: any) {
+    const alumno = {
+      correo: datosQR.correo || 'No asignado', // Asignar correo desde el QR
+      asignatura: datosQR.asignatura || 'No asignada', // Asignar asignatura desde el QR
+      sala: datosQR.sala || 'No especificada', // Asignar sala desde el QR
+    };
+    
+    // Agregar el alumno a la lista
+    this.listaAlumnos.push(alumno);
   }
 
-  limpiarFormulario() {
-    this.asignatura = '';
-    this.seccion = '';
-    this.fecha = '';
-    this.sala = '';
+  generarQR() {
+    const qrData = {
+      asignatura: this.asignatura,
+      seccion: this.seccion,
+      fecha: this.fecha,
+      sala: this.sala
+    };
+    return JSON.stringify(qrData);
   }
 }

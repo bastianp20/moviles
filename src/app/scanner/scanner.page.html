@@ -1,7 +1,10 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
     <ion-title class="ion-text-center">
-      <ion-icon name="scan-outline" slot="start"></ion-icon> Pagina Alumno
+      <ion-icon name="scan-outline" slot="start"></ion-icon> Escáner QR
     </ion-title>
     <ion-buttons slot="end">
       <ion-menu-button></ion-menu-button>
@@ -9,7 +12,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding gradient-background" id="main-content">
+<ion-content [fullscreen]="true" class="ion-padding">
   <div class="section-header">
     <ion-text color="secondary">
       <h2 style="text-align: center;">
@@ -32,8 +35,11 @@
     </ion-card-content>
   </ion-card>
 
-  <!-- Mensaje de estado después de registrar asistencia -->
-  <ion-card *ngIf="mensajeEstado" style="margin: 20px auto; max-width: 500px;">
+  <!-- Botón para activar el escáner manualmente -->
+  <ion-button expand="full" color="secondary" (click)="scanQRCode()">Escanear QR</ion-button>
+
+  <!-- Mensaje de estado -->
+  <ion-card *ngIf="qrEscaneado" style="margin: 20px auto; max-width: 500px;">
     <ion-card-header>
       <ion-card-title style="text-align: center;">
         <ion-icon name="information-circle-outline" slot="start"></ion-icon> Estado
@@ -41,8 +47,9 @@
     </ion-card-header>
     <ion-card-content>
       <ion-text color="primary">
-        <p style="text-align: center;">{{ mensajeEstado }}</p>
+        <p style="text-align: center; font-size: 1.2rem;">¡Asistencia registrada!</p>
       </ion-text>
     </ion-card-content>
   </ion-card>
+
 </ion-content>

@@ -1,5 +1,8 @@
 <ion-header>
   <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/alumno"></ion-back-button>
+    </ion-buttons>
     <ion-title class="ion-text-center">
       📋 Asistencias de Alumnos
     </ion-title>
@@ -14,7 +17,7 @@
         <ion-item color="light" lines="full">
           <ion-icon name="person-circle-outline" slot="start" color="tertiary"></ion-icon>
           <ion-label>
-            <h2>{{ alumno.nombre }} ({{ obtenerUsuarioDesdeCorreo(alumno.correo) }})</h2>
+            <h2>{{ alumno.nombre }} ({{ alumno.correo.split('@')[0] }})</h2>
             <p>✉️ <strong>Correo:</strong> {{ alumno.correo }}</p>
           </ion-label>
         </ion-item>
@@ -32,7 +35,8 @@
               <ion-icon name="book-outline" slot="start"></ion-icon>
               <ion-label>
                 <p>📚 <strong>Asignatura:</strong> {{ asistencia.asignatura }}</p>
-                <p>📅 <strong>Fecha:</strong> {{ asistencia.fecha }}</p>
+                <p>📍 <strong>Sala:</strong> {{ asistencia.sala }}</p>
+                <p>📅 <strong>Fecha:</strong> {{ asistencia.fecha | date }}</p>
               </ion-label>
             </ion-item>
           </ion-list>

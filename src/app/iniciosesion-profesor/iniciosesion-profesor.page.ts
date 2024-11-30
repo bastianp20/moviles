@@ -148,9 +148,5 @@ export class IniciosesionProfesorPage implements OnInit {
     });
     await successAlert.present();
   }
-  
 
-  goBack() {
-    this.navCtrl.back(); 
-  }
 }  

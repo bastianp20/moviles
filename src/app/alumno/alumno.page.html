@@ -1,5 +1,5 @@
 <!-- Menú lateral izquierdo --> 
-<ion-menu contentId="main-content" side="start" menuId="first">
+<ion-menu contentId="main-content" side="end" menuId="first">
   <ion-header>
     <ion-toolbar color="primary">
       <ion-title>Menú</ion-title>
@@ -18,8 +18,11 @@
 <!-- Encabezado principal -->
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
-    <!-- Botón para abrir el menú lateral -->
     <ion-buttons slot="start">
+      <ion-back-button defaultHref="/iniciosesion-profesor"></ion-back-button>
+    </ion-buttons>
+    <!-- Botón para abrir el menú lateral -->
+    <ion-buttons slot="end">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     
