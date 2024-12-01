@@ -10,8 +10,8 @@ import { Html5QrcodeScanner } from 'html5-qrcode';
   styleUrls: ['./scanner.page.scss'],
 })
 export class ScannerPage {
-  qrData: any = null;
-  qrEscaneado: boolean = false;
+  qrData: any = null;  // Para almacenar los datos del QR
+  qrEscaneado: boolean = false;  // Indicador de si se escaneó correctamente
 
   constructor(
     private navCtrl: NavController,
@@ -19,35 +19,45 @@ export class ScannerPage {
     private alumnoDataService: AlumnoService
   ) {}
 
-  // Método para iniciar el escaneo del QR
+  // Método para iniciar el escaneo del código QR
   scanQRCode() {
-    const scanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 }, false); // Tercer argumento 'false' para no usar el modo verbose
-    scanner.render((qrCodeMessage) => {
-      // Procesamos el mensaje del QR
-      console.log("Contenido del QR:", qrCodeMessage);  // Verifica qué contiene el QR
+    const scanner = new Html5QrcodeScanner(
+      "reader",  // ID del contenedor HTML
+      { fps: 10, qrbox: 250 },  // Configuración del escáner
+      false  // Sin modo verbose
+    );
 
-      try {
-        // Intentamos convertir el contenido del QR a un objeto JSON
-        const asistenciaData = JSON.parse(qrCodeMessage);
-        this.qrData = asistenciaData;
-        this.qrEscaneado = true;
+    scanner.render(
+      (qrCodeMessage) => {
+        console.log("Contenido del QR:", qrCodeMessage);  // Mostrar el contenido escaneado
 
-        // Registrar asistencia y almacenar los datos del alumno
-        this.registrarAsistencia(asistenciaData);
-        this.alumnoDataService.setAlumnoData(asistenciaData);  // Almacenar datos en el servicio
-        //this.navCtrl.navigateRoot('/alumno');  // Navegar hacia la página de alumno
-      } catch (error) {
-        console.log('Error al procesar el QR:', error);
+        try {
+          // Convertir el contenido del QR a un objeto JSON
+          const asistenciaData = JSON.parse(qrCodeMessage);
+          this.qrData = asistenciaData;
+          this.qrEscaneado = true;
+
+          // Registrar asistencia y almacenar los datos del alumno
+          this.registrarAsistencia(asistenciaData);
+          this.alumnoDataService.setAlumnoData(asistenciaData);
+
+          // Navegar a la página del alumno si es necesario
+          // this.navCtrl.navigateRoot('/alumno');
+        } catch (error) {
+          console.error('Error al procesar el QR:', error);
+        }
+
+        // Detener el escáner
+        scanner.clear();
+      },
+      (error) => {
+        console.error('Error de escaneo: ', error);  // Manejar errores del escáner
       }
-
-      scanner.clear();  // Detener el escáner después de obtener el QR
-    }, (error) => {
-      console.log('Error de escaneo: ', error);  // Manejo de errores
-    });
+    );
   }
 
   // Método para registrar la asistencia
   registrarAsistencia(asistenciaData: any) {
-    this.asistenciaService.agregarAsistencia(asistenciaData);  // Llamar al servicio de asistencia
+    this.asistenciaService.agregarAsistencia(asistenciaData);  // Guardar en el servicio
   }
 }
