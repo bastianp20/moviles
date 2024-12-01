@@ -1,11 +1,11 @@
 // NoIngresadoGuard
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
-export class NoIngresadoGuard implements CanActivate {
+export class NoIngresadoGuard  {
   constructor(private router: Router) {}
 
   canActivate(): boolean {

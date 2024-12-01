@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { NavController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
 })
-export class NoIngresadoGuard implements CanActivate {
+export class NoIngresadoGuard  {
 
   constructor(private navCtrl: NavController, private router: Router) {}
 
