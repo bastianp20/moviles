@@ -7,6 +7,7 @@ import { Html5QrcodeScanner } from 'html5-qrcode';
 @Component({
   selector: 'app-scanner',
   templateUrl: './scanner.page.html',
+  standalone:true, 
   styleUrls: ['./scanner.page.scss'],
 })
 export class ScannerPage {

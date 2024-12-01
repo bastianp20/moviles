@@ -5,6 +5,7 @@ import { AlertController, NavController, LoadingController } from '@ionic/angula
 @Component({
   selector: 'app-registroprofesor',
   templateUrl: './registroprofesor.page.html',
+  standalone:true, 
   styleUrls: ['./registroprofesor.page.scss'],
 })
 export class RegistroProfesorPage implements OnInit {

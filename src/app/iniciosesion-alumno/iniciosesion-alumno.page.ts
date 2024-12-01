@@ -6,6 +6,7 @@ import { AlertController, NavController, LoadingController } from '@ionic/angula
 @Component({
   selector: 'app-login',
   templateUrl: './iniciosesion-alumno.page.html',
+  standalone:true,
   styleUrls: ['./iniciosesion-alumno.page.scss'],
 })
 export class IniciosesionAlumnoPage implements OnInit {

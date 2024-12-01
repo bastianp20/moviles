@@ -1,13 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AsistenciaService } from 'src/app/services/asistencia.service';
 import { AuthService } from '../services/auth.service';
 import { NavController } from '@ionic/angular';
 import { AlumnoService } from 'src/app/services/alumno.service'; // Asegúrate de importar el servicio
+import { IonicModule } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-alumno',
   templateUrl: './alumno.page.html',
+  standalone:true, 
   styleUrls: ['./alumno.page.scss'],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AlumnoPage implements OnInit {
   asignaturasDisponibles: string[] = ['Arquitectura', 'Ingles', 'Moviles', 'Matematicas'];

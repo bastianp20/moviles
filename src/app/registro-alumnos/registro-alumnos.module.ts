@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -16,6 +16,7 @@ import { RegistroAlumnosPage } from './registro-alumnos.page';
     IonicModule,
     RegistroAlumnosPageRoutingModule
   ],
-  declarations: [RegistroAlumnosPage]
+  schemas:[CUSTOM_ELEMENTS_SCHEMA]
+  //declarations: [RegistroAlumnosPage]
 })
 export class RegistroAlumnosPageModule {}

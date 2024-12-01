@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -15,6 +15,7 @@ import { Error404Page } from './error404.page';
     IonicModule,
     Error404PageRoutingModule
   ],
-  declarations: [Error404Page]
+ // declarations: [Error404Page]
+ schemas:[CUSTOM_ELEMENTS_SCHEMA]
 })
 export class Error404PageModule {}

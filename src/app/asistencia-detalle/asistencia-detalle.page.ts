@@ -6,6 +6,7 @@ import { Asistencia } from '../services/asistencia.model'; // Importa la interfa
 @Component({
   selector: 'app-asistencia-detalle',
   templateUrl: './asistencia-detalle.page.html',
+  standalone : true,
   styleUrls: ['./asistencia-detalle.page.scss'],
 })
 export class AsistenciaDetallePage implements OnInit {

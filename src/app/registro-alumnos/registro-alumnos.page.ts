@@ -5,6 +5,7 @@ import { AlertController, NavController } from '@ionic/angular';
 @Component({
   selector: 'app-registro-alumnos',
   templateUrl: './registro-alumnos.page.html',
+  standalone: true,
   styleUrls: ['./registro-alumnos.page.scss'],
 })
 export class RegistroAlumnosPage implements OnInit {

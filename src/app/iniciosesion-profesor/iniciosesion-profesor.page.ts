@@ -9,6 +9,7 @@ import { AlertController, NavController, LoadingController } from '@ionic/angula
 @Component({
   selector: 'app-iniciosesion-profesor',
   templateUrl: './iniciosesion-profesor.page.html',
+  standalone:true,
   styleUrls: ['./iniciosesion-profesor.page.scss'],
 })
 export class IniciosesionProfesorPage implements OnInit {
